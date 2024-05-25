@@ -1,0 +1,40 @@
+body {
+    font-size: 14pt;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.title {
+    text-align: center;
+}
+
+.collapsible-container {
+    margin-top: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease-out;
+    height: auto;
+    transform: scaleY(1);
+    transform-origin: top;
+}
+
+.collapsible-container-collapsed {
+    transform: scaleY(0);
+}
+
+.article {
+    padding: 2px;
+    border: 1px solid gray;
+    border-radius: 4px;
+}
+
+.article-text {
+    white-space: pre;
+}
+
+.collapsible-button {
+    color: white;
+    background-color: darkblue;
+    border-radius: 4px;
+}
