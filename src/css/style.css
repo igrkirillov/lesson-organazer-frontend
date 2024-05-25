@@ -8,4 +8,16 @@ body {
 
 main {
     display: flex;
+    flex-wrap: nowrap;
+    min-height: 500px;
+}
+
+.saved_messages {
+    width: 75%;
+    background-color: lightyellow;
+}
+
+.shared_media {
+    width: 25%;
+    background-color: lightgray;
 }
