@@ -1,6 +1,7 @@
-import SavedMessagesWidget from "./MessagesWidget";
+import SavedMessagesWidget from "./SavedMessagesWidget";
+import TypingAreaWidget from "./TypingAreaWidget";
 
-export default class MessagesPanelWidget {
+export default class TimelineWidget {
   constructor(ownerElement) {
     this.element = this.createElement(ownerElement);
     this.savedMessagesWidget = new SavedMessagesWidget(this.element, this);
@@ -18,6 +19,6 @@ export default class MessagesPanelWidget {
   addListeners() {}
 
   setFocus() {
-    this.savedMessagesWidget.setFocus();
+    this.typingAreaWidget.setFocus();
   }
 }

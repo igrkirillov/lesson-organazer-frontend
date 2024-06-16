@@ -1,4 +1,4 @@
-export default class SavedMessagesWidget {
+export default class SharedMediaWidget {
   constructor(ownerElement, timelineWidget) {
     this.element = this.createElement(ownerElement);
     this.timelineWidget = timelineWidget;
@@ -7,7 +7,7 @@ export default class SavedMessagesWidget {
 
   createElement(ownerElement) {
     const element = document.createElement("div");
-    element.classList.add("saved_messages");
+    element.classList.add("shared_media");
     ownerElement.appendChild(element);
     return element;
   }

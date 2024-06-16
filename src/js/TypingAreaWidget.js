@@ -1,14 +1,11 @@
 import cameraIcon from "/src/icons/camera.png";
 import microphoneIcon from "/src/icons/microphone.png";
-import Post from "./Post";
 import postTypes from "./postTypes";
 import PostWidget from "./PostWidget";
-import LocationDeterminerWidget from "./LocationDeterminerWidget";
 
 export default class TypingAreaWidget {
   constructor(ownerElement, timelineWidget) {
     this.element = this.createElement(ownerElement);
-    this.postWidgets = [];
     this.timelineWidget = timelineWidget;
     this.addListeners();
     this.setFocus();
@@ -16,23 +13,18 @@ export default class TypingAreaWidget {
 
   createElement(ownerElement) {
     const element = document.createElement("div");
-    element.classList.add("messages");
-    element.innerHTML = `
-      <div class="messages-feed">
-        
+    element.classList.add("typing-area");
+    element.innerHTML = `      
+      <div class="message-input-container">
+          <input type="text" class="message-input-text">
+          <a href="#" class="message-video-link">
+              <img src="${cameraIcon}" class="camera-icon" alt="camera">
+          </a>
+          <a href="#" class="message-audio-link">
+              <img src="${microphoneIcon}" class="microphone-icon" alt="microphone">
+          </a>
       </div>
-      <div class="messages-input-panel">
-        <div class="message-input-container">
-            <input type="text" class="message-input-text">
-            <a href="#" class="message-video-link">
-                <img src="${cameraIcon}" class="camera-icon" alt="camera">
-            </a>
-            <a href="#" class="message-audio-link">
-                <img src="${microphoneIcon}" class="microphone-icon" alt="microphone">
-            </a>
-        </div>
-        <input type="button" class="message-input-button" value="Отправить">        
-      </div>
+      <input type="button" class="message-input-button" value="Отправить">        
     `;
     ownerElement.appendChild(element);
     return element;
