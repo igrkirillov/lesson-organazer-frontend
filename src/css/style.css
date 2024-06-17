@@ -1,5 +1,5 @@
 body {
-    font-size: 14pt;
+    font-size: 16pt;
 }
 
 * {
@@ -22,10 +22,34 @@ main {
     background-color: lightyellow;
     flex-grow: 1;
     border: lightgray solid 1px;
+    border-bottom: 0;
 }
 
-.type-area {
-    min-height: 50px;
+.saved_messages_header {
+
+}
+
+.saved_messages_header h1 {
+    margin: 4px;
+}
+
+.saved_messages_content {
+
+}
+
+.shared_media_header {
+
+}
+
+.shared_media_header h1 {
+    margin: 4px;
+}
+
+.shared_media_content {
+
+}
+
+.typing-area {
     flex-grow: 0;
     border: lightgray solid 1px;
     border-top: 0;
@@ -48,12 +72,13 @@ main {
     margin-top: 10px;
 }
 
-.post-input-text {
+.message-input-text {
     width: 100%;
     padding-right: 36px;
+    font-size: 1rem;
 }
 
-.post-input-button {
+.message-input-button {
     margin-left: 4px;
 }
 
@@ -62,12 +87,12 @@ main {
     height: 16px;
 }
 
-.post-input-container {
+.message-input-container {
     position: relative;
     width: 100%;
 }
 
-.post-video-link {
+.message-video-link {
     position: absolute;
     right: 20px;
     top: 4px;
@@ -75,11 +100,11 @@ main {
     line-height: 0;
 }
 
-.post-video-link:hover {
+.message-video-link:hover {
     background-color: lightgray;
 }
 
-.post-audio-link {
+.message-audio-link {
     position: absolute;
     right: 2px;
     top: 4px;
@@ -87,7 +112,7 @@ main {
     line-height: 0;
 }
 
-.post-audio-link:hover {
+.message-audio-link:hover {
     background-color: lightgray;
 }
 
@@ -99,81 +124,6 @@ main {
 
 .post-title {
     align-self: flex-end;
-}
-
-.eye-icon-class {
-    width: 16px;
-    height: 16px;
-}
-
-.manual-location-dialog {
-    width: 400px;
-    height: 210px;
-    position: absolute;
-    top: calc(30% - 250px/2);
-    left: calc(50% - 400px/2);
-    border: 1px solid black;
-    border-radius: 10px;
-    z-index: 2;
-    background-color: white;
-}
-
-.manual-location-dialog-base {
-    content: "";
-    position: absolute;
-    top:0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    background-color: gray;
-    opacity: 90%;
-}
-
-.manual-location-dialog-title {
-    margin: auto;
-    text-align: center;
-}
-
-.manual-location-dialog-container {
-    margin-top: 20px;
-    padding: 0 10px;
-}
-
-.manual-location-dialog-name {
-    display: block;
-    width: 100%;
-}
-
-.manual-location-dialog-location {
-    display: block;
-    width: 100%;
-}
-
-.manual-location-dialog-location:invalid {
-    border: 1px solid red;
-}
-
-.manual-location-dialog-location:invalid:required {
-    background-color: pink;
-}
-
-.manual-location-dialog-location:valid {
-    border: 1px solid black;
-}
-
-.manual-location-dialog-buttons {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 10px;
-}
-
-.manual-location-dialog-ok {
-    margin-left: 4px;
-}
-
-.manual-location-dialog-cancel {
-    margin-right: 4px;
 }
 
 .tip {

@@ -24,7 +24,6 @@ export default class TypingAreaWidget {
               <img src="${microphoneIcon}" class="microphone-icon" alt="microphone">
           </a>
       </div>
-      <input type="button" class="message-input-button" value="Отправить">        
     `;
     ownerElement.appendChild(element);
     return element;
@@ -33,10 +32,6 @@ export default class TypingAreaWidget {
   addListeners() {
     this.onMessageInputButtonClick = this.onMessageInputButtonClick.bind(this);
     this.onMessageInputTextKeyDown = this.onMessageInputTextKeyDown.bind(this);
-    this.messageInputButtonElement.addEventListener(
-      "click",
-      this.onMessageInputButtonClick
-    );
     this.messageInputTextElement.addEventListener(
       "keydown",
       this.onMessageInputTextKeyDown
@@ -48,11 +43,7 @@ export default class TypingAreaWidget {
   }
 
   get messageInputTextElement() {
-    return this.element.querySelector(".post-input-text");
-  }
-
-  get messageInputButtonElement() {
-    return this.element.querySelector(".post-input-button");
+    return this.element.querySelector(".message-input-text");
   }
 
   onMessageInputButtonClick() {
