@@ -34,7 +34,7 @@ main {
 }
 
 .saved_messages_content {
-
+    padding: 4px;
 }
 
 .shared_media_header {
@@ -62,10 +62,16 @@ main {
     border-left: 0;
 }
 
-.post {
+.message {
     padding: 2px;
     border: 1px solid gray;
     border-radius: 4px;
+    width: max-content;
+}
+
+.message-title {
+    font-size: 0.8em;
+    font-style: italic;
 }
 
 .post:nth-child(n + 2) {

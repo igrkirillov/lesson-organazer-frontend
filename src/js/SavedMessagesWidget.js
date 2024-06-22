@@ -31,6 +31,10 @@ export default class SavedMessagesWidget {
     parentElement.appendChild(element);
   }
 
+  get savedMessagesContentElement() {
+    return this.element.querySelector(".saved_messages_content");
+  }
+
   addListeners() {
   }
 }

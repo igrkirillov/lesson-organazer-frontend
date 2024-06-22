@@ -1,12 +1,14 @@
 import cameraIcon from "/src/icons/camera.png";
 import microphoneIcon from "/src/icons/microphone.png";
-import postTypes from "./postTypes";
-import PostWidget from "./PostWidget";
+import messageTypes from "./messageTypes";
+import Message from "./Message";
+import MessageWidget from "./MessageWidget";
 
 export default class TypingAreaWidget {
   constructor(ownerElement, timelineWidget) {
     this.element = this.createElement(ownerElement);
     this.timelineWidget = timelineWidget;
+    this.messageWidgets = [];
     this.addListeners();
     this.setFocus();
   }
@@ -38,10 +40,6 @@ export default class TypingAreaWidget {
     );
   }
 
-  get messagesFeedElement() {
-    return this.element.querySelector(".posts-feed");
-  }
-
   get messageInputTextElement() {
     return this.element.querySelector(".message-input-text");
   }
@@ -59,32 +57,34 @@ export default class TypingAreaWidget {
   }
 
   addTextMessage(text) {
-    const widget = this;
+    const message = new Message(
+      messageTypes.text,
+      text,
+      new Date());
+    this.addMessage(message);
   }
 
   addVideoMessage(blob) {
-    const post = new Post(
-      postTypes.video,
+    const message = new Message(
+      messageTypes.video,
       blob,
-      new Date(),
-      this.timelineWidget.currentLocation
+      new Date()
     );
-    this.addMessage(post);
+    this.addMessage(message);
   }
 
   addAudioMessage(blob) {
-    const post = new Post(
-      postTypes.audio,
+    const message = new Message(
+      messageTypes.audio,
       blob,
-      new Date(),
-      this.timelineWidget.currentLocation
+      new Date()
     );
-    this.addMessage(post);
+    this.addMessage(message);
   }
 
-  addMessage(post) {
-    const postWidget = new PostWidget(this.messagesFeedElement, this, post);
-    this.postWidgets.push(postWidget);
+  addMessage(message) {
+    const messageWidget = new MessageWidget(this.timelineWidget.savedMessagesContentElement, this, message);
+    this.messageWidgets.push(messageWidget);
   }
 
   setFocus() {

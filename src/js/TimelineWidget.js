@@ -16,6 +16,10 @@ export default class TimelineWidget {
     return element;
   }
 
+  get savedMessagesContentElement() {
+    return this.savedMessagesWidget.savedMessagesContentElement;
+  }
+
   addListeners() {}
 
   setFocus() {
