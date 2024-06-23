@@ -10,6 +10,7 @@ body {
 main {
     display: flex;
     flex-wrap: nowrap;
+    max-width: 800px;
 }
 
 .messages_panel {
