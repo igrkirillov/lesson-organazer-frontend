@@ -9,7 +9,8 @@ body {
 main {
     display: flex;
     flex-wrap: nowrap;
-    min-height: 500px;
+    height: 500px;
+    max-height: 500px;
 }
 
 .messages_panel {
@@ -35,6 +36,8 @@ main {
 
 .saved_messages_content {
     padding: 4px;
+    overflow-y: auto;
+    scrollbar-width: thin;
 }
 
 .shared_media_header {
