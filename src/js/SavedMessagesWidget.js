@@ -37,4 +37,9 @@ export default class SavedMessagesWidget {
   }
 
   addListeners() {}
+
+  scrollToBottom() {
+    let scrollableDiv = this.savedMessagesContentElement;
+    scrollableDiv.scrollTop = scrollableDiv.scrollHeight;
+  }
 }

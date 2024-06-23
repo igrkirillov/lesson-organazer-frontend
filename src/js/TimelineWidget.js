@@ -44,5 +44,6 @@ export default class TimelineWidget {
       message
     );
     this.messageWidgets.push(messageWidget);
+    this.savedMessagesWidget.scrollToBottom();
   }
 }
