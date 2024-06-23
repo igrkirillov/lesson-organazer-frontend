@@ -1,5 +1,6 @@
 body {
     font-size: 16pt;
+    overflow-y: hidden;
 }
 
 * {
@@ -9,8 +10,6 @@ body {
 main {
     display: flex;
     flex-wrap: nowrap;
-    height: 500px;
-    max-height: 500px;
 }
 
 .messages_panel {
@@ -38,6 +37,7 @@ main {
     padding: 4px;
     overflow-y: auto;
     scrollbar-width: thin;
+    height: 500px;
 }
 
 .shared_media_header {
