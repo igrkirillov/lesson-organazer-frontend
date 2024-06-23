@@ -146,3 +146,67 @@ main {
     font-style: italic;
     color: darkred;
 }
+
+.video-recorder-dialog {
+    width: 400px;
+    height: 500px;
+    position: absolute;
+    top: calc(30% - 250px/2);
+    left: calc(50% - 400px/2);
+    border: 1px solid black;
+    border-radius: 10px;
+    z-index: 2;
+    background-color: white;
+}
+
+.video-recorder-video {
+    width: 380px;
+    height: 380px;
+}
+
+.video-recorder-dialog-base {
+    content: "";
+    position: absolute;
+    top:0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background-color: gray;
+    opacity: 90%;
+}
+
+.video-recorder-dialog-title {
+    margin: auto;
+    text-align: center;
+}
+
+.video-recorder-dialog-container {
+    margin-top: 20px;
+    padding: 0 10px;
+}
+
+.video-recorder-dialog-name {
+    display: block;
+    width: 100%;
+}
+
+.video-recorder-dialog-description {
+    display: block;
+    width: 100%;
+    min-height: 100px;
+}
+
+.video-recorder-dialog-buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+.video-recorder-dialog-cancel {
+    margin-right: 4px;
+}
+
+.video-recorder-dialog-ok {
+    margin-left: 4px;
+}

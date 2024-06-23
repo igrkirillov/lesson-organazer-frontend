@@ -3,6 +3,7 @@ import microphoneIcon from "/src/icons/microphone.png";
 import messageTypes from "./messageTypes";
 import Message from "./Message";
 import MessageWidget from "./MessageWidget";
+import VideoRecorderDialogWidget from "./VideoRecorderDialogWidget";
 
 export default class TypingAreaWidget {
   constructor(ownerElement, timelineWidget) {
@@ -34,14 +35,23 @@ export default class TypingAreaWidget {
   addListeners() {
     this.onMessageInputButtonClick = this.onMessageInputButtonClick.bind(this);
     this.onMessageInputTextKeyDown = this.onMessageInputTextKeyDown.bind(this);
-    this.messageInputTextElement.addEventListener(
-      "keydown",
-      this.onMessageInputTextKeyDown
-    );
+    this.onMessageInputVideoClick = this.onMessageInputVideoClick.bind(this);
+    this.onMessageInputAudioClick = this.onMessageInputAudioClick.bind(this);
+    this.messageInputTextElement.addEventListener("keydown", this.onMessageInputTextKeyDown);
+    this.messageInputVideoElement.addEventListener("click", this.onMessageInputVideoClick);
+    this.messageInputAudioElement.addEventListener("click", this.onMessageInputAudioClick);
   }
 
   get messageInputTextElement() {
     return this.element.querySelector(".message-input-text");
+  }
+
+  get messageInputVideoElement() {
+    return this.element.querySelector(".message-video-link");
+  }
+
+  get messageInputAudioElement() {
+    return this.element.querySelector(".message-audio-link");
   }
 
   onMessageInputButtonClick() {
@@ -56,6 +66,14 @@ export default class TypingAreaWidget {
     }
   }
 
+  onMessageInputVideoClick(event) {
+    this.addVideoMessage(null);
+  }
+
+  onMessageInputAudioClick(event) {
+    this.addAudioMessage(null);
+  }
+
   addTextMessage(text) {
     const message = new Message(
       messageTypes.text,
@@ -65,6 +83,15 @@ export default class TypingAreaWidget {
   }
 
   addVideoMessage(blob) {
+    new VideoRecorderDialogWidget(
+      this.timelineWidget.element,
+      () => {
+        console.log("ok");
+      },
+      () => {
+        console.log("cancel");
+      }
+    );
     const message = new Message(
       messageTypes.video,
       blob,
