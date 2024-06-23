@@ -7,8 +7,16 @@ export default class TimelineWidget {
     this.application = application;
     this.element = this.createElement(ownerElement);
     this.messageWidgets = [];
-    this.savedMessagesWidget = new SavedMessagesWidget(application, this.element, this);
-    this.typingAreaWidget = new TypingAreaWidget(application, this.element, this);
+    this.savedMessagesWidget = new SavedMessagesWidget(
+      application,
+      this.element,
+      this
+    );
+    this.typingAreaWidget = new TypingAreaWidget(
+      application,
+      this.element,
+      this
+    );
     this.addListeners();
   }
 
@@ -30,7 +38,11 @@ export default class TimelineWidget {
   }
 
   addMessage(message) {
-    const messageWidget = new MessageWidget(this.savedMessagesContentElement, this, message);
+    const messageWidget = new MessageWidget(
+      this.savedMessagesContentElement,
+      this,
+      message
+    );
     this.messageWidgets.push(messageWidget);
   }
 }

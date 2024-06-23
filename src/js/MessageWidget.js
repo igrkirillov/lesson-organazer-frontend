@@ -34,13 +34,23 @@ export default class MessageWidget {
                 <span>${message.data}</span>            
             </div>
             <div>
-                ${message.attachments ? message.attachments.map(at => this.getAttachmentHtml(at)).join("<br>") : ""}
+                ${
+                  message.attachments
+                    ? message.attachments
+                        .map((at) => this.getAttachmentHtml(at))
+                        .join("<br>")
+                    : ""
+                }
             </div>            
         `;
       case messageTypes.video:
-        return `<video src="${URL.createObjectURL(message.data)}" class="video-message" controls></video>`;
+        return `<video src="${URL.createObjectURL(
+          message.data
+        )}" class="video-message" controls></video>`;
       case messageTypes.audio:
-        return `<audio src="${URL.createObjectURL(message.data)}" class="audio-message" controls></audio>`;
+        return `<audio src="${URL.createObjectURL(
+          message.data
+        )}" class="audio-message" controls></audio>`;
       default:
         return `<span>${message.data}</span>`;
     }

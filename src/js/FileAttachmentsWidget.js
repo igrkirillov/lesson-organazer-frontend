@@ -1,4 +1,4 @@
-import fileIcon from "../icons/file.png"
+import fileIcon from "../icons/file.png";
 export default class FileAttachmentsWidget {
   constructor(application, ownerElement, typingAreaWidget) {
     this.application = application;
@@ -15,8 +15,7 @@ export default class FileAttachmentsWidget {
     return element;
   }
 
-  addListeners() {
-  }
+  addListeners() {}
 
   addFiles(files) {
     if (files && files.length > 0) {
@@ -32,11 +31,12 @@ export default class FileAttachmentsWidget {
   }
 
   removeAttachment(fileName) {
-    const attachmentElement = Array.from(this.element.querySelectorAll(".file-attachment"))
-      .filter(el => el.dataset.name === fileName)[0];
+    const attachmentElement = Array.from(
+      this.element.querySelectorAll(".file-attachment")
+    ).filter((el) => el.dataset.name === fileName)[0];
     this.element.removeChild(attachmentElement);
 
-    const fileIndex = this.files.findIndex(file => file.name === fileName);
+    const fileIndex = this.files.findIndex((file) => file.name === fileName);
     this.files.splice(fileIndex, 1);
   }
 
@@ -52,8 +52,12 @@ export default class FileAttachmentsWidget {
     this.element.appendChild(element);
     this.files.push(file);
 
-    element.querySelector(".file-attachment-remove")
-      .addEventListener("click", this.onRemoveAttachmentClick.bind(this, file.name));
+    element
+      .querySelector(".file-attachment-remove")
+      .addEventListener(
+        "click",
+        this.onRemoveAttachmentClick.bind(this, file.name)
+      );
   }
 
   clear() {

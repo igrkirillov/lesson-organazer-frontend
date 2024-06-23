@@ -55,19 +55,35 @@ export default class TypingAreaWidget {
 
   addListeners() {
     this.onMessageInputTextKeyDown = this.onMessageInputTextKeyDown.bind(this);
-    this.messageInputTextElement.addEventListener("keydown", this.onMessageInputTextKeyDown);
+    this.messageInputTextElement.addEventListener(
+      "keydown",
+      this.onMessageInputTextKeyDown
+    );
 
     this.onMessageInputVideoClick = this.onMessageInputVideoClick.bind(this);
-    this.messageInputVideoElement.addEventListener("click", this.onMessageInputVideoClick);
+    this.messageInputVideoElement.addEventListener(
+      "click",
+      this.onMessageInputVideoClick
+    );
 
     this.onMessageInputAudioClick = this.onMessageInputAudioClick.bind(this);
-    this.messageInputAudioElement.addEventListener("click", this.onMessageInputAudioClick);
+    this.messageInputAudioElement.addEventListener(
+      "click",
+      this.onMessageInputAudioClick
+    );
 
-    this.onMessageInputFileLinkClick = this.onMessageInputFileLinkClick.bind(this);
-    this.messageInputFileLinkElement.addEventListener("click", this.onMessageInputFileLinkClick);
+    this.onMessageInputFileLinkClick =
+      this.onMessageInputFileLinkClick.bind(this);
+    this.messageInputFileLinkElement.addEventListener(
+      "click",
+      this.onMessageInputFileLinkClick
+    );
 
     this.onMessageInputFileChange = this.onMessageInputFileChange.bind(this);
-    this.messageInputFileElement.addEventListener("change", this.onMessageInputFileChange);
+    this.messageInputFileElement.addEventListener(
+      "change",
+      this.onMessageInputFileChange
+    );
   }
 
   get messageInputTextElement() {
@@ -97,19 +113,19 @@ export default class TypingAreaWidget {
     }
   }
 
-  onMessageInputVideoClick(event) {
+  onMessageInputVideoClick() {
     this.addVideoMessage();
   }
 
-  onMessageInputAudioClick(event) {
+  onMessageInputAudioClick() {
     this.addAudioMessage();
   }
 
-  onMessageInputFileLinkClick(event) {
+  onMessageInputFileLinkClick() {
     this.messageInputFileElement.click();
   }
 
-  onMessageInputFileChange(event) {
+  onMessageInputFileChange() {
     const files = Array.from(this.messageInputFileElement.files);
     if (files && files.length > 0) {
       this.fileAttachmentsWidget.addFiles(files);
@@ -122,7 +138,8 @@ export default class TypingAreaWidget {
       messageTypes.text,
       text,
       new Date(),
-      this.fileAttachmentsWidget.attachments);
+      this.fileAttachmentsWidget.attachments
+    );
     this.addMessage(message);
     this.fileAttachmentsWidget.clear();
   }
@@ -132,11 +149,7 @@ export default class TypingAreaWidget {
       this.timelineWidget.element,
       recorderTypes.video,
       (blob) => {
-        const message = new Message(
-          messageTypes.video,
-          blob,
-          new Date()
-        );
+        const message = new Message(messageTypes.video, blob, new Date());
         this.addMessage(message);
       },
       () => {
@@ -150,11 +163,7 @@ export default class TypingAreaWidget {
       this.timelineWidget.element,
       recorderTypes.audio,
       (blob) => {
-        const message = new Message(
-          messageTypes.audio,
-          blob,
-          new Date()
-        );
+        const message = new Message(messageTypes.audio, blob, new Date());
         this.addMessage(message);
       },
       () => {

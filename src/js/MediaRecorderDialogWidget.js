@@ -22,13 +22,25 @@ export default class MediaRecorderDialogWidget {
     const element = document.createElement("div");
     element.classList.add("video-recorder-dialog-base");
     element.innerHTML = `
-    <div class="video-recorder-dialog ${this.recorderType === recorderTypes.audio ? "video-recorder-dialog-audio" : ""}">
+    <div class="video-recorder-dialog ${
+      this.recorderType === recorderTypes.audio
+        ? "video-recorder-dialog-audio"
+        : ""
+    }">
       <div class="video-recorder-dialog-title">
-          Запись ${this.recorderType == recorderTypes.video ? "видео" : "аудио"} сообщения
+          Запись ${
+            this.recorderType == recorderTypes.video ? "видео" : "аудио"
+          } сообщения
       </div>
       <div class="video-recorder-dialog-container">
-          <div class="video-recorder-dialog-message">Идёт ${this.recorderType == recorderTypes.video ? "видео" : "аудио"}-запись...</div>
-          ${this.recorderType === recorderTypes.video ? "<video class=\"video-recorder-video\" controls></video>" : "<audio class=\"video-recorder-audio\" controls></audio>"}
+          <div class="video-recorder-dialog-message">Идёт ${
+            this.recorderType == recorderTypes.video ? "видео" : "аудио"
+          }-запись...</div>
+          ${
+            this.recorderType === recorderTypes.video
+              ? '<video class="video-recorder-video" controls></video>'
+              : '<audio class="video-recorder-audio" controls></audio>'
+          }
           <div class="video-recorder-dialog-buttons">
               <input class="video-recorder-dialog-cancel" type="submit" value="Отмена">
               <input class="video-recorder-dialog-ok" type="submit" value="Ок">
@@ -41,14 +53,17 @@ export default class MediaRecorderDialogWidget {
 
   get videoElement() {
     return this.recorderType === recorderTypes.video
-      ? this.element.querySelector(".video-recorder-video") : this.element.querySelector(".video-recorder-audio");
+      ? this.element.querySelector(".video-recorder-video")
+      : this.element.querySelector(".video-recorder-audio");
   }
 
   addListeners() {
     this.onClickOk = this.onClickOk.bind(this);
     this.onClickCancel = this.onClickCancel.bind(this);
 
-    const okButtonElement = this.element.querySelector(".video-recorder-dialog-ok");
+    const okButtonElement = this.element.querySelector(
+      ".video-recorder-dialog-ok"
+    );
     const cancelButtonElement = this.element.querySelector(
       ".video-recorder-dialog-cancel"
     );
@@ -59,18 +74,18 @@ export default class MediaRecorderDialogWidget {
     const videoPlayer = this.videoElement;
     this.videoElement.addEventListener("canplay", () => {
       videoPlayer.play();
-    })
+    });
   }
 
   async startStream() {
     if (this.recorderType === recorderTypes.video) {
       this.stream = await navigator.mediaDevices.getUserMedia({
         video: true,
-        audio: true
+        audio: true,
       });
     } else {
       this.stream = await navigator.mediaDevices.getUserMedia({
-        audio: true
+        audio: true,
       });
     }
     this.videoElement.srcObject = this.stream;
@@ -81,7 +96,10 @@ export default class MediaRecorderDialogWidget {
     this.mediaRecorder = new MediaRecorder(this.stream);
 
     this.onEventDataAvailable = this.onEventDataAvailable.bind(this);
-    this.mediaRecorder.addEventListener("dataavailable", this.onEventDataAvailable);
+    this.mediaRecorder.addEventListener(
+      "dataavailable",
+      this.onEventDataAvailable
+    );
 
     this.onEventStopRecording = this.onEventStopRecording.bind(this);
     this.mediaRecorder.addEventListener("stop", this.onEventStopRecording);
@@ -112,7 +130,7 @@ export default class MediaRecorderDialogWidget {
 
   stopStream() {
     if (this.stream) {
-      this.stream.getTracks().forEach(track => track.stop());
+      this.stream.getTracks().forEach((track) => track.stop());
       this.videoElement.srcObject = null;
       this.stream = null;
     }
@@ -133,7 +151,9 @@ export default class MediaRecorderDialogWidget {
   }
 
   close() {
-    const okButtonElement = this.element.querySelector(".video-recorder-dialog-ok");
+    const okButtonElement = this.element.querySelector(
+      ".video-recorder-dialog-ok"
+    );
     const cancelButtonElement = this.element.querySelector(
       ".video-recorder-dialog-cancel"
     );

@@ -36,6 +36,5 @@ export default class SavedMessagesWidget {
     return this.element.querySelector(".saved_messages_content");
   }
 
-  addListeners() {
-  }
+  addListeners() {}
 }

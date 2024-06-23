@@ -43,16 +43,22 @@ export default class SharedMediaWidget {
 
   refreshContent() {
     const sharedMediaContainerElement = this.sharedMediaContentElement;
-    Array.from(this.element.querySelectorAll(".shared-media-row")).forEach(element => {
-      sharedMediaContainerElement.removeChild(element);
-    });
+    Array.from(this.element.querySelectorAll(".shared-media-row")).forEach(
+      (element) => {
+        sharedMediaContainerElement.removeChild(element);
+      }
+    );
 
     for (const messageType of Object.values(messageTypes)) {
       const element = document.createElement("div");
       element.classList.add("shared-media-row");
       element.innerHTML = `
-        <div><img src="${this.getImage(messageType)}" class="shared-media-icon"></div>
-        <div><span class="shared-media-info">${this.getTitle(messageType) + " " + this.getCount(messageType)}</span></div>
+        <div><img src="${this.getImage(
+          messageType
+        )}" class="shared-media-icon"></div>
+        <div><span class="shared-media-info">${
+          this.getTitle(messageType) + " " + this.getCount(messageType)
+        }</span></div>
       `;
       this.sharedMediaContentElement.appendChild(element);
     }
@@ -60,13 +66,15 @@ export default class SharedMediaWidget {
 
   getCount(messageType) {
     if (messageType !== messageTypes.text) {
-      return this.application.messages
-        .filter(m => m.type === messageType)
+      return this.application.messages.filter((m) => m.type === messageType)
         .length;
     } else {
       return this.application.messages
-        .filter(m => m.type === messageType && m.attachments && m.attachments.length > 0)
-        .map(m => m.attachments.length)
+        .filter(
+          (m) =>
+            m.type === messageType && m.attachments && m.attachments.length > 0
+        )
+        .map((m) => m.attachments.length)
         .reduce((prev, current) => prev + current, 0);
     }
   }
@@ -97,6 +105,5 @@ export default class SharedMediaWidget {
     }
   }
 
-  addListeners() {
-  }
+  addListeners() {}
 }

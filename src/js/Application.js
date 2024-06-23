@@ -1,6 +1,5 @@
 import TimelineWidget from "./TimelineWidget";
 import SharedMediaWidget from "./SharedMediaWidget";
-import MessageWidget from "./MessageWidget";
 
 export default class Application {
   constructor(mainElement) {
