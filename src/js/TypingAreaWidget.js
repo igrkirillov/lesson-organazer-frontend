@@ -114,6 +114,7 @@ export default class TypingAreaWidget {
     if (files && files.length > 0) {
       this.fileAttachmentsWidget.addFiles(files);
     }
+    this.setFocus();
   }
 
   addTextMessage(text) {
