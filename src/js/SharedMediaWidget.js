@@ -1,5 +1,6 @@
 export default class SharedMediaWidget {
-  constructor(ownerElement) {
+  constructor(application, ownerElement) {
+    this.application = application;
     this.element = this.createElement(ownerElement);
     this.addListeners();
   }

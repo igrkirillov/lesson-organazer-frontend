@@ -1,5 +1,6 @@
 export default class SavedMessagesWidget {
-  constructor(ownerElement, timelineWidget) {
+  constructor(application, ownerElement, timelineWidget) {
+    this.application = application;
     this.element = this.createElement(ownerElement);
     this.timelineWidget = timelineWidget;
     this.addListeners();

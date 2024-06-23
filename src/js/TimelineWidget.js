@@ -1,11 +1,14 @@
 import SavedMessagesWidget from "./SavedMessagesWidget";
 import TypingAreaWidget from "./TypingAreaWidget";
+import MessageWidget from "./MessageWidget";
 
 export default class TimelineWidget {
-  constructor(ownerElement) {
+  constructor(application, ownerElement) {
+    this.application = application;
     this.element = this.createElement(ownerElement);
-    this.savedMessagesWidget = new SavedMessagesWidget(this.element, this);
-    this.typingAreaWidget = new TypingAreaWidget(this.element, this);
+    this.messageWidgets = [];
+    this.savedMessagesWidget = new SavedMessagesWidget(application, this.element, this);
+    this.typingAreaWidget = new TypingAreaWidget(application, this.element, this);
     this.addListeners();
   }
 
@@ -24,5 +27,10 @@ export default class TimelineWidget {
 
   setFocus() {
     this.typingAreaWidget.setFocus();
+  }
+
+  addMessage(message) {
+    const messageWidget = new MessageWidget(this.savedMessagesContentElement, this, message);
+    this.messageWidgets.push(messageWidget);
   }
 }

@@ -7,10 +7,10 @@ import MediaRecorderDialogWidget from "./MediaRecorderDialogWidget";
 import recorderTypes from "./recorderTypes";
 
 export default class TypingAreaWidget {
-  constructor(ownerElement, timelineWidget) {
+  constructor(application, ownerElement, timelineWidget) {
+    this.application = application;
     this.element = this.createElement(ownerElement);
     this.timelineWidget = timelineWidget;
-    this.messageWidgets = [];
     this.addListeners();
     this.setFocus();
   }
@@ -120,8 +120,7 @@ export default class TypingAreaWidget {
   }
 
   addMessage(message) {
-    const messageWidget = new MessageWidget(this.timelineWidget.savedMessagesContentElement, this, message);
-    this.messageWidgets.push(messageWidget);
+    this.application.addMessage(message);
   }
 
   setFocus() {
