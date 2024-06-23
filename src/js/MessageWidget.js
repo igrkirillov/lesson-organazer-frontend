@@ -1,4 +1,5 @@
 import { toMessageDateFormat } from "./utils";
+import messageTypes from "./messageTypes";
 
 export default class MessageWidget {
   constructor(ownerElement, messagesWidget, message) {
@@ -16,11 +17,24 @@ export default class MessageWidget {
                 <span>${toMessageDateFormat(message.dateTime)}</span>
             </div>
             <div class="message-data">
-                <span>${message.data}</span>
+                ${this.getMessageHtml(message)}
             </div>            
         </div>
     `;
     ownerElement.appendChild(element);
     return element;
+  }
+
+  getMessageHtml(message) {
+    switch (message.type) {
+      case messageTypes.text:
+        return `<span>${message.data}</span>`;
+      case messageTypes.video:
+        return `<video src="${URL.createObjectURL(message.data)}" class="video-message" controls></video>`;
+      case messageTypes.audio:
+        return `<audio src="${URL.createObjectURL(message.data)}" class="audio-message" controls></audio>`;
+      default:
+        return `<span>${message.data}</span>`;
+    }
   }
 }

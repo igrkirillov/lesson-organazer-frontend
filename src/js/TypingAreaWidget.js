@@ -3,7 +3,8 @@ import microphoneIcon from "/src/icons/microphone.png";
 import messageTypes from "./messageTypes";
 import Message from "./Message";
 import MessageWidget from "./MessageWidget";
-import VideoRecorderDialogWidget from "./VideoRecorderDialogWidget";
+import MediaRecorderDialogWidget from "./MediaRecorderDialogWidget";
+import recorderTypes from "./recorderTypes";
 
 export default class TypingAreaWidget {
   constructor(ownerElement, timelineWidget) {
@@ -83,30 +84,39 @@ export default class TypingAreaWidget {
   }
 
   addVideoMessage(blob) {
-    new VideoRecorderDialogWidget(
+    new MediaRecorderDialogWidget(
       this.timelineWidget.element,
-      () => {
-        console.log("ok");
+      recorderTypes.video,
+      (blob) => {
+        const message = new Message(
+          messageTypes.video,
+          blob,
+          new Date()
+        );
+        this.addMessage(message);
       },
       () => {
         console.log("cancel");
       }
     );
-    const message = new Message(
-      messageTypes.video,
-      blob,
-      new Date()
-    );
-    this.addMessage(message);
   }
 
   addAudioMessage(blob) {
-    const message = new Message(
-      messageTypes.audio,
-      blob,
-      new Date()
+    new MediaRecorderDialogWidget(
+      this.timelineWidget.element,
+      recorderTypes.audio,
+      (blob) => {
+        const message = new Message(
+          messageTypes.audio,
+          blob,
+          new Date()
+        );
+        this.addMessage(message);
+      },
+      () => {
+        console.log("cancel");
+      }
     );
-    this.addMessage(message);
   }
 
   addMessage(message) {
