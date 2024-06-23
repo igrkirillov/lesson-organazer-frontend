@@ -46,7 +46,24 @@ main {
 }
 
 .shared_media_content {
+    display: flex;
+    flex-direction: column;
+}
 
+.shared-media-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.shared-media-icon {
+    width: 48px;
+    height: 48px;
+}
+
+.shared-media-info {
+    width: 100%;
+    text-align: left;
 }
 
 .typing-area {

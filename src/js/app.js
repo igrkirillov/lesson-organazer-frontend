@@ -1,5 +1,3 @@
-import TimelineWidget from "./TimelineWidget";
-import SharedMediaWidget from "./SharedMediaWidget";
 import Application from "./Application";
 
 let mainElement;
