@@ -28,7 +28,16 @@ export default class FileAttachmentsWidget {
 
   onRemoveAttachmentClick(fileName, event) {
     event.preventDefault();
-    console.log(event);
+    this.removeAttachment(fileName);
+  }
+
+  removeAttachment(fileName) {
+    const attachmentElement = Array.from(this.element.querySelectorAll(".file-attachment"))
+      .filter(el => el.dataset.name === fileName)[0];
+    this.element.removeChild(attachmentElement);
+
+    const fileIndex = this.files.findIndex(file => file.name === fileName);
+    this.files.splice(fileIndex, 1);
   }
 
   addFile(file) {
@@ -48,6 +57,13 @@ export default class FileAttachmentsWidget {
   }
 
   clear() {
+    const filesForRemove = Array.from(this.files);
+    for (const file of filesForRemove) {
+      this.removeAttachment(file.name);
+    }
+  }
 
+  get attachments() {
+    return Array.from(this.files);
   }
 }

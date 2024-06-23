@@ -1,7 +1,7 @@
 import messageTypes from "./messageTypes";
 import camera from "../icons/camera.png";
 import microphone from "../icons/microphone.png";
-import text from "../icons/text.png";
+import file from "../icons/file.png";
 
 export default class SharedMediaWidget {
   constructor(application, ownerElement) {
@@ -48,14 +48,26 @@ export default class SharedMediaWidget {
     });
 
     for (const messageType of Object.values(messageTypes)) {
-      const count = this.application.messages.filter(m => m.type === messageType).length;
       const element = document.createElement("div");
       element.classList.add("shared-media-row");
       element.innerHTML = `
         <div><img src="${this.getImage(messageType)}" class="shared-media-icon"></div>
-        <div><span class="shared-media-info">${this.getTitle(messageType) + " " + count}</span></div>
+        <div><span class="shared-media-info">${this.getTitle(messageType) + " " + this.getCount(messageType)}</span></div>
       `;
       this.sharedMediaContentElement.appendChild(element);
+    }
+  }
+
+  getCount(messageType) {
+    if (messageType !== messageTypes.text) {
+      return this.application.messages
+        .filter(m => m.type === messageType)
+        .length;
+    } else {
+      return this.application.messages
+        .filter(m => m.type === messageType && m.attachments && m.attachments.length > 0)
+        .map(m => m.attachments.length)
+        .reduce((prev, current) => prev + current, 0);
     }
   }
 
@@ -66,7 +78,7 @@ export default class SharedMediaWidget {
       case messageTypes.audio:
         return microphone;
       case messageTypes.text:
-        return text;
+        return file;
       default:
         return "";
     }
@@ -75,11 +87,11 @@ export default class SharedMediaWidget {
   getTitle(messageType) {
     switch (messageType) {
       case messageTypes.video:
-        return "Видео-сообщений";
+        return "Видео";
       case messageTypes.audio:
-        return "Аудио-сообщений";
+        return "Аудио";
       case messageTypes.text:
-        return "Текстовых";
+        return "Файлов";
       default:
         return "";
     }

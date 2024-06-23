@@ -273,8 +273,8 @@ main {
 
 .file-attachments {
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-direction: column;
+    flex-wrap: nowrap;
 }
 
 .file-attachment-icon {

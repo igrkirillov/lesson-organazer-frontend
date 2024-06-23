@@ -3,10 +3,9 @@ import microphoneIcon from "/src/icons/microphone.png";
 import fileIcon from "/src/icons/file.png";
 import messageTypes from "./messageTypes";
 import Message from "./Message";
-import MessageWidget from "./MessageWidget";
 import MediaRecorderDialogWidget from "./MediaRecorderDialogWidget";
 import recorderTypes from "./recorderTypes";
-import FileAttachmentsWidget from "./FileAreaWidget";
+import FileAttachmentsWidget from "./FileAttachmentsWidget";
 
 export default class TypingAreaWidget {
   constructor(application, ownerElement, timelineWidget) {
@@ -121,8 +120,10 @@ export default class TypingAreaWidget {
     const message = new Message(
       messageTypes.text,
       text,
-      new Date());
+      new Date(),
+      this.fileAttachmentsWidget.attachments);
     this.addMessage(message);
+    this.fileAttachmentsWidget.clear();
   }
 
   addVideoMessage() {

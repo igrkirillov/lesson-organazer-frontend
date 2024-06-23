@@ -1,5 +1,6 @@
 import { toMessageDateFormat } from "./utils";
 import messageTypes from "./messageTypes";
+import fileIcon from "../icons/file.png";
 
 export default class MessageWidget {
   constructor(ownerElement, messagesWidget, message) {
@@ -28,7 +29,14 @@ export default class MessageWidget {
   getMessageHtml(message) {
     switch (message.type) {
       case messageTypes.text:
-        return `<span>${message.data}</span>`;
+        return `
+            <div>
+                <span>${message.data}</span>            
+            </div>
+            <div>
+                ${message.attachments ? message.attachments.map(at => this.getAttachmentHtml(at)).join("<br>") : ""}
+            </div>            
+        `;
       case messageTypes.video:
         return `<video src="${URL.createObjectURL(message.data)}" class="video-message" controls></video>`;
       case messageTypes.audio:
@@ -36,5 +44,12 @@ export default class MessageWidget {
       default:
         return `<span>${message.data}</span>`;
     }
+  }
+
+  getAttachmentHtml(attachment) {
+    return `
+      <img src="${fileIcon}" class="file-attachment-icon">
+      <span>${attachment.name}</span>
+    `;
   }
 }
