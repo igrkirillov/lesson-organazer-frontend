@@ -6,11 +6,16 @@ import Message from "./Message";
 import MessageWidget from "./MessageWidget";
 import MediaRecorderDialogWidget from "./MediaRecorderDialogWidget";
 import recorderTypes from "./recorderTypes";
+import FileAttachmentsWidget from "./FileAreaWidget";
 
 export default class TypingAreaWidget {
   constructor(application, ownerElement, timelineWidget) {
     this.application = application;
     this.element = this.createElement(ownerElement);
+
+    this.fileAttachmentsWidget = this.createFileAttachmentsArea(this.element);
+    this.createMessageInputArea(this.element);
+
     this.timelineWidget = timelineWidget;
     this.addListeners();
     this.setFocus();
@@ -19,8 +24,18 @@ export default class TypingAreaWidget {
   createElement(ownerElement) {
     const element = document.createElement("div");
     element.classList.add("typing-area");
+    ownerElement.appendChild(element);
+    return element;
+  }
+
+  createFileAttachmentsArea(parentElement) {
+    return new FileAttachmentsWidget(this.application, parentElement, this);
+  }
+
+  createMessageInputArea(parentElement) {
+    const element = document.createElement("div");
+    element.classList.add("message-input-container");
     element.innerHTML = `      
-      <div class="message-input-container">
           <input type="text" class="message-input-text">
             <a href="#" class="message-file-link">
                 <img src="${fileIcon}" class="file-icon" alt="file">
@@ -34,9 +49,8 @@ export default class TypingAreaWidget {
           <a href="#" class="message-audio-link">
               <img src="${microphoneIcon}" class="microphone-icon" alt="microphone">
           </a>
-      </div>
     `;
-    ownerElement.appendChild(element);
+    parentElement.appendChild(element);
     return element;
   }
 
@@ -99,7 +113,7 @@ export default class TypingAreaWidget {
   onMessageInputFileChange(event) {
     const files = Array.from(this.messageInputFileElement.files);
     if (files && files.length > 0) {
-      console.log(files);
+      this.fileAttachmentsWidget.addFiles(files);
     }
   }
 

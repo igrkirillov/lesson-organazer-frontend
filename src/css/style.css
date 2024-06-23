@@ -270,3 +270,22 @@ main {
     bottom: 0;
     right: 0;
 }
+
+.file-attachments {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.file-attachment-icon {
+    width: 16px;
+    height: 16px;
+}
+
+.file-attachment-remove {
+    text-decoration: none;
+}
+
+.file-attachment-remove:hover {
+    background-color: lightgray;
+}
