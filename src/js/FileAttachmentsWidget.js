@@ -1,4 +1,5 @@
 import fileIcon from "../icons/file.png";
+import Attachment from "./Attachment";
 export default class FileAttachmentsWidget {
   constructor(application, ownerElement, typingAreaWidget) {
     this.application = application;
@@ -68,6 +69,6 @@ export default class FileAttachmentsWidget {
   }
 
   get attachments() {
-    return Array.from(this.files);
+    return Array.from(this.files).map(file => new Attachment(file));
   }
 }
