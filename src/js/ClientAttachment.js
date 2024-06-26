@@ -1,4 +1,4 @@
-export default class Attachment {
+export default class ClientAttachment {
   constructor(file) {
     this.file = file;
     this.arrayBuffer = null;

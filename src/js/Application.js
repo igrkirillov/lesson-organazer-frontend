@@ -14,7 +14,10 @@ export default class Application {
 
   addMessage(message) {
     const spinner = new SpinnerDialogWidget(this.timeLineWidget.savedMessagesContentElement);
-    addMessageToServer(message)
+    this.loadAttachmentsIfNeed(message)
+      .then((loadedMessage) => {
+        return addMessageToServer(loadedMessage);
+      })
       .then((savedMessage) => {
         this.messages.push(savedMessage);
         this.timeLineWidget.addMessage(savedMessage);
@@ -25,11 +28,12 @@ export default class Application {
       });
   }
 
-  loadFiles(message) {
-    const spinner = new SpinnerDialogWidget(this.timeLineWidget.savedMessagesContentElement);
-    const loader = new AttachmentsLoader(message.attachments);
-    loader.load(() => {
-      spinner.close();
-    });
+  loadAttachmentsIfNeed(message) {
+    if (message.attachments && message.attachments.length > 0) {
+      const loader = new AttachmentsLoader(message);
+      return loader.load();
+    } else {
+      return Promise.resolve(message);
+    }
   }
 }

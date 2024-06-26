@@ -1,7 +1,18 @@
 import config from "./config.json";
 import Message from "./Message";
+import {encode} from "base64-arraybuffer";
+import ClientAttachment from "./ClientAttachment";
+import ServerAttachment from "./ServerAttachment";
 
 const baseUrl = config.serverUrl;
+
+export function createDownloadAttachmentUrl(serverAttachment) {
+  return makeUrl({
+    method: "downloadAttachment",
+    messageId: serverAttachment.messageId,
+    attachmentName: serverAttachment.name
+  });
+}
 
 export async function allMessagesFromServer() {
   const url = makeUrl({
@@ -21,12 +32,13 @@ export async function addMessageToServer(dto) {
   const url = makeUrl({
     method: "addMessage",
   });
+  const payload = messageToJson(dto);
   return fetch(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: messageToJson(dto),
+    body: payload,
   })
     .then((response) => response.json())
     .then((json) => parseDtoJson(json));
@@ -54,18 +66,22 @@ function parseDtoJson(json) {
     json.id,
     json.type,
     json.data,
-    parseDateTime(json.dateTime)
+    parseDateTime(json.dateTime),
+    parseServerAttachments(json.id, json.attachmentNames)
   );
 }
 
 function messageToJson(message) {
-  return JSON.stringify(message, (key, value) => {
+  const t = JSON.stringify(message, (key, value) => {
     if (key === "dateTime") {
       return dateTimeToString(message.dateTime);
+    } else if (key === "attachments") {
+      return mapAttachmentsToTransportObjects(message.attachments);
     } else {
       return value;
     }
   })
+  return t;
 }
 
 function parseDateTime(dateTime) {
@@ -76,9 +92,25 @@ function parseDateTime(dateTime) {
   return new Date(+dateParts[2], +dateParts[1], +dateParts[0], +timeParts[0], +timeParts[1], +timeParts[2]);
 }
 
+function parseServerAttachments(messageId, attachmentNames) {
+    return attachmentNames
+      ? attachmentNames.map(name => new ServerAttachment(messageId, name))
+      : null;
+}
+
 function dateTimeToString(dateTime) {
-  console.log(dateTime)
   return `${dateTime.getDate()}-${dateTime.getMonth()}-${dateTime.getFullYear()} ${dateTime.getHours()}:${dateTime.getMinutes()}:${dateTime.getSeconds()}`;
+}
+
+function mapAttachmentsToTransportObjects(attachments) {
+  const array = [];
+  for (const attachment of attachments) {
+    array.push({
+      file: attachment.name,
+      arrayBuffer: encode(attachment.arrayBuffer)
+    });
+  }
+  return array;
 }
 
 function parseDtoArrayJson(jsonArray) {
