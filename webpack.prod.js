@@ -8,4 +8,10 @@ module.exports = merge(common, {
     minimize: false, // не получается настроить extract css
     minimizer: [new CssMinimizerPlugin()],
   },
+  plugins: [
+    new webpack.NormalModuleReplacementPlugin(
+      /\.\/config\.json/,
+      "../../config/prod/config.json"
+    ),
+  ],
 });

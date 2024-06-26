@@ -135,6 +135,7 @@ export default class TypingAreaWidget {
 
   addTextMessage(text) {
     const message = new Message(
+      null,
       messageTypes.text,
       text,
       new Date(),

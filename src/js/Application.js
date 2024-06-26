@@ -3,6 +3,7 @@ import SharedMediaWidget from "./SharedMediaWidget";
 import messageTypes from "./messageTypes";
 import SpinnerDialogWidget from "./SpinnerDialogWidget";
 import AttachmentsLoader from "./FileLoader";
+import {addMessageToServer} from "./serverApi";
 
 export default class Application {
   constructor(mainElement) {
@@ -12,12 +13,16 @@ export default class Application {
   }
 
   addMessage(message) {
-    if (message.type == messageTypes.text && message.attachments && message.attachments.length > 0) {
-      this.loadFiles(message);
-    }
-    this.messages.push(message);
-    this.timeLineWidget.addMessage(message);
-    this.sharedMediaWidget.refreshContent();
+    const spinner = new SpinnerDialogWidget(this.timeLineWidget.savedMessagesContentElement);
+    addMessageToServer(message)
+      .then((savedMessage) => {
+        this.messages.push(savedMessage);
+        this.timeLineWidget.addMessage(savedMessage);
+        this.sharedMediaWidget.refreshContent();
+      })
+      .finally(() => {
+        spinner.close();
+      });
   }
 
   loadFiles(message) {
