@@ -1,4 +1,5 @@
 import spinner from "/src/icons/spinner.gif";
+import constants from "./constants";
 
 export default class SpinnerDialogWidget {
   constructor(ownerElement) {
@@ -24,8 +25,8 @@ export default class SpinnerDialogWidget {
     const ownerRect = this.ownerElement.getBoundingClientRect();
     const imageRect = this.spinnerImageElement.getBoundingClientRect();
     const style = this.spinnerDialogElement.style
-    style.top = ownerRect.top + ownerRect.height/2 - 200/2 + "px";
-    style.left = ownerRect.left + ownerRect.width/2 - 200/2 + "px";
+    style.top = ownerRect.top + ownerRect.height / 2 - constants.spinnerHeight / 2 + "px";
+    style.left = ownerRect.left + ownerRect.width / 2 - constants.spinnerWidth / 2 + "px";
   }
 
   get spinnerDialogElement() {

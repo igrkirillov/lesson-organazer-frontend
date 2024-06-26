@@ -24,7 +24,7 @@ export default class Application {
     const spinner = new SpinnerDialogWidget(this.timeLineWidget.savedMessagesContentElement);
     const loader = new AttachmentsLoader(message.attachments);
     loader.load(() => {
-      // spinner.close();
+      spinner.close();
     });
   }
 }

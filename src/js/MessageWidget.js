@@ -59,7 +59,8 @@ export default class MessageWidget {
   getAttachmentHtml(attachment) {
     return `
       <img src="${fileIcon}" class="file-attachment-icon">
-      <span>${attachment.name}</span>
+      <a href="${URL.createObjectURL(attachment.blob)}" rel="noopener" download="${attachment.name}" 
+      class="attachment-link" data-name="${attachment.name}">${attachment.name}</a>
     `;
   }
 }

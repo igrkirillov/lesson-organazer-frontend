@@ -10,7 +10,7 @@ export default class AttachmentsLoader {
     for (const attachment of this.attachments) {
       const reader = new FileReader();
       reader.addEventListener("load", (event) => {
-        attachment.data = event.target.result;
+        attachment.arrayBuffer = event.target.result;
         loader.countUp += 1;
         console.log(loader.countUp);
         if (loader.countUp === loader.attachments.length) {
