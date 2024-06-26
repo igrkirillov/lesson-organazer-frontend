@@ -6,7 +6,6 @@ import AttachmentsLoader from "./FileLoader";
 
 export default class Application {
   constructor(mainElement) {
-    this.mainElement = mainElement;
     this.messages = [];
     this.timeLineWidget = new TimelineWidget(this, mainElement);
     this.sharedMediaWidget = new SharedMediaWidget(this, mainElement);
@@ -22,10 +21,10 @@ export default class Application {
   }
 
   loadFiles(message) {
-    const spinner = new SpinnerDialogWidget(this.mainElement);
+    const spinner = new SpinnerDialogWidget(this.timeLineWidget.savedMessagesContentElement);
     const loader = new AttachmentsLoader(message.attachments);
     loader.load(() => {
-      spinner.close();
+      // spinner.close();
     });
   }
 }

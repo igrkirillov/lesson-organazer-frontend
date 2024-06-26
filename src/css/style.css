@@ -298,8 +298,6 @@ main {
     width: 200px;
     height: 200px;
     position: absolute;
-    top: calc(50% - 200px);
-    left: calc(50% - 200px/2);
     z-index: 2;
     background-color: gray;
 }
