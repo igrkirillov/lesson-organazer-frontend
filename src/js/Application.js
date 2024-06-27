@@ -31,15 +31,21 @@ export default class Application {
   }
 
   prepareDataIfNeed(message) {
-    if (message.type === messageTypes.text && message.attachments && message.attachments.length > 0) {
+    if (
+      message.type === messageTypes.text &&
+      message.attachments &&
+      message.attachments.length > 0
+    ) {
       const loader = new AttachmentsLoader(message);
       return loader.load();
-    } else if (message.type === messageTypes.video || message.type === messageTypes.audio) {
-      return message.data.arrayBuffer()
-        .then((arrayBuffer) => {
-          message.arrayBuffer = arrayBuffer;
-          return message;
-        });
+    } else if (
+      message.type === messageTypes.video ||
+      message.type === messageTypes.audio
+    ) {
+      return message.data.arrayBuffer().then((arrayBuffer) => {
+        message.arrayBuffer = arrayBuffer;
+        return message;
+      });
     } else {
       return Promise.resolve(message);
     }

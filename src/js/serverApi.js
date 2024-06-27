@@ -1,10 +1,8 @@
 import config from "./config.json";
 import Message from "./Message";
 import {decode, encode} from "base64-arraybuffer";
-import ClientAttachment from "./ClientAttachment";
 import ServerAttachment from "./ServerAttachment";
 import messageTypes from "./messageTypes";
-import {ArrayBuffer} from "core-js/internals/array-buffer";
 
 const baseUrl = config.serverUrl;
 
@@ -77,25 +75,27 @@ function parseData(messageType, data) {
   switch (messageType) {
     case messageTypes.video:
     case messageTypes.audio:
-      return new Blob([decode(data)])
+      return new Blob([decode(data)]);
     default:
       return data;
   }
 }
 
 function messageToJson(message) {
-  const t = JSON.stringify(message, (key, value) => {
+  return JSON.stringify(message, (key, value) => {
     if (key === "dateTime") {
       return dateTimeToString(message.dateTime);
     } else if (key === "attachments") {
-      return message.attachments && mapAttachmentsToTransportObjects(message.attachments);
+      return (
+        message.attachments &&
+        mapAttachmentsToTransportObjects(message.attachments)
+      );
     } else if (key === "data") {
       return mapDataToTransportObject(message);
     } else {
       return value;
     }
   });
-  return t;
 }
 
 function parseDateTime(dateTime) {
