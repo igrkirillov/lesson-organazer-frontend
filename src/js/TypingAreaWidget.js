@@ -150,7 +150,7 @@ export default class TypingAreaWidget {
       this.timelineWidget.element,
       recorderTypes.video,
       (blob) => {
-        const message = new Message(messageTypes.video, blob, new Date());
+        const message = new Message(null, messageTypes.video, blob, new Date());
         this.addMessage(message);
       },
       () => {
@@ -164,7 +164,7 @@ export default class TypingAreaWidget {
       this.timelineWidget.element,
       recorderTypes.audio,
       (blob) => {
-        const message = new Message(messageTypes.audio, blob, new Date());
+        const message = new Message(null, messageTypes.audio, blob, new Date());
         this.addMessage(message);
       },
       () => {

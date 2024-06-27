@@ -7,8 +7,4 @@ export default class ClientAttachment {
   get name() {
     return this.file.name;
   }
-
-  get blob() {
-    return new Blob([this.arrayBuffer]);
-  }
 }

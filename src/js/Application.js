@@ -16,7 +16,7 @@ export default class Application {
     const spinner = new SpinnerDialogWidget(
       this.timeLineWidget.savedMessagesContentElement
     );
-    this.loadAttachmentsIfNeed(message)
+    this.prepareDataIfNeed(message)
       .then((loadedMessage) => {
         return addMessageToServer(loadedMessage);
       })
@@ -30,10 +30,16 @@ export default class Application {
       });
   }
 
-  loadAttachmentsIfNeed(message) {
-    if (message.attachments && message.attachments.length > 0) {
+  prepareDataIfNeed(message) {
+    if (message.type === messageTypes.text && message.attachments && message.attachments.length > 0) {
       const loader = new AttachmentsLoader(message);
       return loader.load();
+    } else if (message.type === messageTypes.video || message.type === messageTypes.audio) {
+      return message.data.arrayBuffer()
+        .then((arrayBuffer) => {
+          message.arrayBuffer = arrayBuffer;
+          return message;
+        });
     } else {
       return Promise.resolve(message);
     }

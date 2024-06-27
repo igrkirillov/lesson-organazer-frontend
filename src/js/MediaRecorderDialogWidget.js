@@ -9,7 +9,7 @@ export default class MediaRecorderDialogWidget {
     this.cancelCallback = cancelCallback;
     this.stream = null;
     this.mediaRecorder = null;
-    this.data = null;
+    this.chunks = null;
     this.okFlag = null;
     this.addListeners();
     (async () => {
@@ -92,7 +92,7 @@ export default class MediaRecorderDialogWidget {
   }
 
   startRecording() {
-    this.data = [];
+    this.chunks = [];
     this.mediaRecorder = new MediaRecorder(this.stream);
 
     this.onEventDataAvailable = this.onEventDataAvailable.bind(this);
@@ -108,13 +108,13 @@ export default class MediaRecorderDialogWidget {
   }
 
   onEventDataAvailable(event) {
-    this.data.push(event.data);
+    this.chunks.push(event.data);
   }
 
   onEventStopRecording() {
     if (this.okFlag) {
-      this.okCallback(new Blob(this.data));
-      this.data = null;
+      this.okCallback(new Blob(this.chunks));
+      this.chunks = null;
     } else {
       this.cancelCallback();
     }

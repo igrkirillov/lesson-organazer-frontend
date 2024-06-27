@@ -1,8 +1,10 @@
 import config from "./config.json";
 import Message from "./Message";
-import { encode } from "base64-arraybuffer";
+import {decode, encode} from "base64-arraybuffer";
 import ClientAttachment from "./ClientAttachment";
 import ServerAttachment from "./ServerAttachment";
+import messageTypes from "./messageTypes";
+import {ArrayBuffer} from "core-js/internals/array-buffer";
 
 const baseUrl = config.serverUrl;
 
@@ -65,10 +67,20 @@ function parseDtoJson(json) {
   return new Message(
     json.id,
     json.type,
-    json.data,
+    parseData(json.type, json.data),
     parseDateTime(json.dateTime),
     parseServerAttachments(json.id, json.attachmentNames)
   );
+}
+
+function parseData(messageType, data) {
+  switch (messageType) {
+    case messageTypes.video:
+    case messageTypes.audio:
+      return new Blob([decode(data)])
+    default:
+      return data;
+  }
 }
 
 function messageToJson(message) {
@@ -76,7 +88,9 @@ function messageToJson(message) {
     if (key === "dateTime") {
       return dateTimeToString(message.dateTime);
     } else if (key === "attachments") {
-      return mapAttachmentsToTransportObjects(message.attachments);
+      return message.attachments && mapAttachmentsToTransportObjects(message.attachments);
+    } else if (key === "data") {
+      return mapDataToTransportObject(message);
     } else {
       return value;
     }
@@ -118,6 +132,16 @@ function mapAttachmentsToTransportObjects(attachments) {
     });
   }
   return array;
+}
+
+function mapDataToTransportObject(message) {
+  switch (message.type) {
+    case messageTypes.audio:
+    case messageTypes.video:
+      return encode(message.arrayBuffer);
+    default:
+      return message.data;
+  }
 }
 
 function parseDtoArrayJson(jsonArray) {
