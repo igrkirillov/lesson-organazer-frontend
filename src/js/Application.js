@@ -3,7 +3,7 @@ import SharedMediaWidget from "./SharedMediaWidget";
 import messageTypes from "./messageTypes";
 import SpinnerDialogWidget from "./SpinnerDialogWidget";
 import AttachmentsLoader from "./FileLoader";
-import {addMessageToServer} from "./serverApi";
+import { addMessageToServer } from "./serverApi";
 
 export default class Application {
   constructor(mainElement) {
@@ -13,7 +13,9 @@ export default class Application {
   }
 
   addMessage(message) {
-    const spinner = new SpinnerDialogWidget(this.timeLineWidget.savedMessagesContentElement);
+    const spinner = new SpinnerDialogWidget(
+      this.timeLineWidget.savedMessagesContentElement
+    );
     this.loadAttachmentsIfNeed(message)
       .then((loadedMessage) => {
         return addMessageToServer(loadedMessage);

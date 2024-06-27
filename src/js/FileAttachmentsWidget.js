@@ -69,6 +69,6 @@ export default class FileAttachmentsWidget {
   }
 
   get attachments() {
-    return Array.from(this.files).map(file => new ClientAttachment(file));
+    return Array.from(this.files).map((file) => new ClientAttachment(file));
   }
 }

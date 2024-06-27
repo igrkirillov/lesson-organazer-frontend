@@ -1,6 +1,6 @@
 import config from "./config.json";
 import Message from "./Message";
-import {encode} from "base64-arraybuffer";
+import { encode } from "base64-arraybuffer";
 import ClientAttachment from "./ClientAttachment";
 import ServerAttachment from "./ServerAttachment";
 
@@ -10,7 +10,7 @@ export function createDownloadAttachmentUrl(serverAttachment) {
   return makeUrl({
     method: "downloadAttachment",
     messageId: serverAttachment.messageId,
-    attachmentName: serverAttachment.name
+    attachmentName: serverAttachment.name,
   });
 }
 
@@ -80,7 +80,7 @@ function messageToJson(message) {
     } else {
       return value;
     }
-  })
+  });
   return t;
 }
 
@@ -89,13 +89,20 @@ function parseDateTime(dateTime) {
   const dateAndTime = dateTime.split(" ");
   const dateParts = dateAndTime[0].split("-");
   const timeParts = dateAndTime[1].split(":");
-  return new Date(+dateParts[2], +dateParts[1], +dateParts[0], +timeParts[0], +timeParts[1], +timeParts[2]);
+  return new Date(
+    +dateParts[2],
+    +dateParts[1],
+    +dateParts[0],
+    +timeParts[0],
+    +timeParts[1],
+    +timeParts[2]
+  );
 }
 
 function parseServerAttachments(messageId, attachmentNames) {
-    return attachmentNames
-      ? attachmentNames.map(name => new ServerAttachment(messageId, name))
-      : null;
+  return attachmentNames
+    ? attachmentNames.map((name) => new ServerAttachment(messageId, name))
+    : null;
 }
 
 function dateTimeToString(dateTime) {
@@ -107,7 +114,7 @@ function mapAttachmentsToTransportObjects(attachments) {
   for (const attachment of attachments) {
     array.push({
       file: attachment.name,
-      arrayBuffer: encode(attachment.arrayBuffer)
+      arrayBuffer: encode(attachment.arrayBuffer),
     });
   }
   return array;

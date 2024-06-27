@@ -1,7 +1,7 @@
 import { toMessageDateFormat } from "./utils";
 import messageTypes from "./messageTypes";
 import fileIcon from "../icons/file.png";
-import {createDownloadAttachmentUrl} from "./serverApi";
+import { createDownloadAttachmentUrl } from "./serverApi";
 
 export default class MessageWidget {
   constructor(ownerElement, messagesWidget, message) {
@@ -60,7 +60,9 @@ export default class MessageWidget {
   getAttachmentHtml(attachment) {
     return `
       <img src="${fileIcon}" class="file-attachment-icon">
-      <a href="${createDownloadAttachmentUrl(attachment)}" rel="noopener" download="${attachment.name}" 
+      <a href="${createDownloadAttachmentUrl(
+        attachment
+      )}" rel="noopener" download="${attachment.name}" 
       class="attachment-link">${attachment.name}</a>
     `;
   }
