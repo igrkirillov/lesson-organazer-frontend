@@ -15,14 +15,17 @@ export default class Application {
 
   loadPageMessages(pageIndex, pageSize) {
     const spinner = this.createSpinner();
-    getMessagesPage(pageIndex, pageSize)
+    return getMessagesPage(pageIndex, pageSize)
       .then((page) => {
         console.log(page);
         const messages = page.messages;
         if (messages && messages.length > 0) {
-          this.messages.unshift(messages);
+          this.messages.unshift(...messages);
           this.timeLineWidget.addMessages(messages);
           this.sharedMediaWidget.refreshContent();
+        }
+        if (page.beforeCount > 0) {
+          this.timeLineWidget.addPaginator(page);
         }
       })
       .finally(() => {

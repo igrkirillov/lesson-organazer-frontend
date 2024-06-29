@@ -1,6 +1,7 @@
 import SavedMessagesWidget from "./SavedMessagesWidget";
 import TypingAreaWidget from "./TypingAreaWidget";
 import MessageWidget from "./MessageWidget";
+import PaginatorWidget from "./PaginatorWidget";
 
 export default class TimelineWidget {
   constructor(application, ownerElement) {
@@ -31,6 +32,12 @@ export default class TimelineWidget {
     return this.savedMessagesWidget.savedMessagesContentElement;
   }
 
+  get firstMessageWidget() {
+    return this.messageWidgets && this.messageWidgets.length > 0
+      ? this.messageWidgets[0]
+      : null;
+  }
+
   addListeners() {}
 
   setFocus() {
@@ -54,8 +61,28 @@ export default class TimelineWidget {
         this,
         message
       );
+      if (this.firstMessageWidget) {
+        this.savedMessagesContentElement.insertBefore(
+          messageWidget.element,
+          this.firstMessageWidget.element
+        );
+      }
       this.messageWidgets.unshift(messageWidget);
     }
     this.savedMessagesWidget.scrollToTop();
+  }
+
+  addPaginator(page) {
+    const paginatorWidget = new PaginatorWidget(
+      this.savedMessagesContentElement,
+      page,
+      this.application
+    );
+    if (this.firstMessageWidget) {
+      this.savedMessagesContentElement.insertBefore(
+        paginatorWidget.element,
+        this.firstMessageWidget.element
+      );
+    }
   }
 }

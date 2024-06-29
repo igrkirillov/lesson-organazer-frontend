@@ -322,3 +322,18 @@ main {
 .attachment-link {
     text-decoration: none;
 }
+
+.paginator {
+
+}
+
+.paginator-container {
+    margin: 0 auto;
+    width: max-content;
+}
+
+.paginator-link {
+    text-decoration: none;
+    border: 1px solid gray;
+    border-radius: 4px;
+}
