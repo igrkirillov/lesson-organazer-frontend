@@ -3,13 +3,31 @@ import SharedMediaWidget from "./SharedMediaWidget";
 import messageTypes from "./messageTypes";
 import SpinnerDialogWidget from "./SpinnerDialogWidget";
 import AttachmentsLoader from "./FileLoader";
-import { addMessageToServer } from "./serverApi";
+import { addMessageToServer, getMessagesPage } from "./serverApi";
 
 export default class Application {
   constructor(mainElement) {
     this.messages = [];
     this.timeLineWidget = new TimelineWidget(this, mainElement);
     this.sharedMediaWidget = new SharedMediaWidget(this, mainElement);
+    this.loadPageMessages(0, 3);
+  }
+
+  loadPageMessages(pageIndex, pageSize) {
+    const spinner = this.createSpinner();
+    getMessagesPage(pageIndex, pageSize)
+      .then((page) => {
+        console.log(page);
+        const messages = page.messages;
+        if (messages && messages.length > 0) {
+          this.messages.unshift(messages);
+          this.timeLineWidget.addMessages(messages);
+          this.sharedMediaWidget.refreshContent();
+        }
+      })
+      .finally(() => {
+        spinner.close();
+      });
   }
 
   addMessage(message) {
@@ -49,5 +67,11 @@ export default class Application {
     } else {
       return Promise.resolve(message);
     }
+  }
+
+  createSpinner() {
+    return new SpinnerDialogWidget(
+      this.timeLineWidget.savedMessagesContentElement
+    );
   }
 }

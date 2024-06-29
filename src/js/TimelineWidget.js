@@ -46,4 +46,16 @@ export default class TimelineWidget {
     this.messageWidgets.push(messageWidget);
     this.savedMessagesWidget.scrollToBottom();
   }
+
+  addMessages(messages) {
+    for (const message of messages) {
+      const messageWidget = new MessageWidget(
+        this.savedMessagesContentElement,
+        this,
+        message
+      );
+      this.messageWidgets.unshift(messageWidget);
+    }
+    this.savedMessagesWidget.scrollToTop();
+  }
 }

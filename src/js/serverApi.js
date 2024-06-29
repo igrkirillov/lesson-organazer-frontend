@@ -1,8 +1,9 @@
 import config from "./config.json";
 import Message from "./Message";
-import {decode, encode} from "base64-arraybuffer";
+import { decode, encode } from "base64-arraybuffer";
 import ServerAttachment from "./ServerAttachment";
 import messageTypes from "./messageTypes";
+import MessagesPage from "./MessagesPage";
 
 const baseUrl = config.serverUrl;
 
@@ -14,18 +15,20 @@ export function createDownloadAttachmentUrl(serverAttachment) {
   });
 }
 
-export async function allMessagesFromServer() {
+export async function getMessagesPage(pageIndex, pageSize) {
   const url = makeUrl({
-    method: "allMessages",
+    method: "getPage",
+    pageIndex: pageIndex,
+    pageSize: pageSize,
   });
   return fetch(url, {
     method: "GET",
     headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
+      "Content-Type": "application/json",
     },
   })
     .then((response) => response.json())
-    .then((json) => parseDtoArrayJson(json));
+    .then((json) => parseMessagesPageJson(json));
 }
 
 export async function addMessageToServer(dto) {
@@ -144,7 +147,17 @@ function mapDataToTransportObject(message) {
   }
 }
 
-function parseDtoArrayJson(jsonArray) {
+function parseMessagesPageJson(pageJson) {
+  return new MessagesPage(
+    pageJson.pageIndex,
+    pageJson.pageSize,
+    pageJson.beforeCount,
+    pageJson.afterCount,
+    parseMessagesJson(pageJson.messages)
+  );
+}
+
+function parseMessagesJson(jsonArray) {
   const array = [];
   if (jsonArray) {
     for (const dtoJson of jsonArray) {

@@ -42,4 +42,9 @@ export default class SavedMessagesWidget {
     let scrollableDiv = this.savedMessagesContentElement;
     scrollableDiv.scrollTop = scrollableDiv.scrollHeight;
   }
+
+  scrollToTop() {
+    let scrollableDiv = this.savedMessagesContentElement;
+    scrollableDiv.scrollTop = 0;
+  }
 }
