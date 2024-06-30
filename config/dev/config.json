@@ -1,3 +1,4 @@
 {
-  "serverUrl": "http://localhost:7070"
+  "serverUrl": "http://localhost:7070",
+  "wsUrl": "ws://localhost:7070"
 }

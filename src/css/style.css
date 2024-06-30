@@ -49,9 +49,10 @@ main {
     margin: 4px;
 }
 
-.shared_media_content {
+.shared-media-content {
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
 }
 
 .shared-media-row {
@@ -77,6 +78,8 @@ main {
 }
 
 .shared_media {
+    display: flex;
+    flex-direction: column;
     width: 25%;
     background-color: lightgray;
     border: lightgray solid 1px;
@@ -420,4 +423,13 @@ main {
 .tip-text {
     font-style: italic;
     color: darkred;
+}
+
+.shared-media-footer {
+    align-self: end;
+    padding: 0 4px;
+}
+
+.client-id {
+    font-size: 0.8em;
 }

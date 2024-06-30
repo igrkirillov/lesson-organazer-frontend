@@ -1,3 +1,4 @@
 {
-  "serverUrl": "https://lesson-organazer-backend.onrender.com"
+  "serverUrl": "https://lesson-organazer-backend.onrender.com",
+  "wsUrl": "wss://lesson-organazer-backend.onrender.com"
 }

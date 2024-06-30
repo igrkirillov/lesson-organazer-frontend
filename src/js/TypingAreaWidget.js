@@ -134,14 +134,12 @@ export default class TypingAreaWidget {
   }
 
   addTextMessage(text) {
-    const message = new Message(
-      null,
+    const message = this.createMessageDto(
       messageTypes.text,
       text,
-      new Date(),
       this.fileAttachmentsWidget.attachments
     );
-    this.addMessage(message);
+    this.saveMessage(message);
     this.fileAttachmentsWidget.clear();
   }
 
@@ -150,8 +148,8 @@ export default class TypingAreaWidget {
       this.timelineWidget.element,
       recorderTypes.video,
       (blob) => {
-        const message = new Message(null, messageTypes.video, blob, new Date());
-        this.addMessage(message);
+        const message = this.createMessageDto(messageTypes.video, blob);
+        this.saveMessage(message);
       },
       () => {
         console.log("cancel");
@@ -164,8 +162,8 @@ export default class TypingAreaWidget {
       this.timelineWidget.element,
       recorderTypes.audio,
       (blob) => {
-        const message = new Message(null, messageTypes.audio, blob, new Date());
-        this.addMessage(message);
+        const message = this.createMessageDto(messageTypes.audio, blob);
+        this.saveMessage(message);
       },
       () => {
         console.log("cancel");
@@ -173,12 +171,23 @@ export default class TypingAreaWidget {
     );
   }
 
-  addMessage(message) {
+  createMessageDto(type, data, attachments) {
+    return new Message(
+      this.application.clientId,
+      null,
+      type,
+      data,
+      new Date(),
+      attachments
+    );
+  }
+
+  saveMessage(message) {
     this.locationDeterminerWidget
       .determineMyLocation()
       .then((location) => {
         message.setLocation(location);
-        this.application.addMessage(message);
+        this.application.saveMessage(message);
       })
       .catch((e) => {
         console.log("Determine location with error " + e);

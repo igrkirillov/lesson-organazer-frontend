@@ -7,6 +7,7 @@ import MessagesPage from "./MessagesPage";
 import Location from "./Location";
 
 const baseUrl = config.serverUrl;
+const wsUrl = config.wsUrl;
 
 export function createDownloadAttachmentUrl(serverAttachment) {
   return makeUrl({
@@ -14,6 +15,20 @@ export function createDownloadAttachmentUrl(serverAttachment) {
     messageId: serverAttachment.messageId,
     attachmentName: serverAttachment.name,
   });
+}
+
+export async function getClientId() {
+  const url = makeUrl({
+    method: "getClientId",
+  });
+  return fetch(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((response) => response.json())
+    .then((json) => json.clientId);
 }
 
 export async function getMessagesPage(pageIndex, pageSize) {
@@ -45,7 +60,7 @@ export async function addMessageToServer(dto) {
     body: payload,
   })
     .then((response) => response.json())
-    .then((json) => parseDtoJson(json));
+    .then((json) => parseMessageJson(json));
 }
 
 function makeUrl(queryParams) {
@@ -65,8 +80,9 @@ function makeUrl(queryParams) {
   return url;
 }
 
-function parseDtoJson(json) {
+function parseMessageJson(json) {
   return new Message(
+    json.clientId,
     json.id,
     json.type,
     parseData(json.type, json.data),
@@ -170,8 +186,21 @@ function parseMessagesJson(jsonArray) {
   const array = [];
   if (jsonArray) {
     for (const dtoJson of jsonArray) {
-      array.push(parseDtoJson(dtoJson));
+      array.push(parseMessageJson(dtoJson));
     }
   }
   return array;
+}
+
+export function createWebSocket() {
+  return new WebSocket(wsUrl);
+}
+
+export function addWsMessageListener(ws, messageCallback) {
+  ws.addEventListener("message", (event) => {
+    const json = JSON.parse(event.data);
+    if (json) {
+      messageCallback(parseMessageJson(json));
+    }
+  });
 }

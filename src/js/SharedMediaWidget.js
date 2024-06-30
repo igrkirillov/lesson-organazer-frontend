@@ -18,6 +18,7 @@ export default class SharedMediaWidget {
 
     this.createHeaderElement(element);
     this.createContentElement(element);
+    this.createFooterElement(element);
 
     return element;
   }
@@ -37,8 +38,21 @@ export default class SharedMediaWidget {
     parentElement.appendChild(element);
   }
 
+  createFooterElement(parentElement) {
+    const element = document.createElement("div");
+    element.classList.add("shared-media-footer");
+    element.innerHTML = `
+        <div class="client-id">${this.application.clientId}<div>
+    `;
+    parentElement.appendChild(element);
+  }
+
   get sharedMediaContentElement() {
     return this.element.querySelector(".shared-media-content");
+  }
+
+  get clientIdElement() {
+    return this.element.querySelector(".client-id");
   }
 
   refreshContent() {
@@ -61,7 +75,13 @@ export default class SharedMediaWidget {
         }</span></div>
       `;
       this.sharedMediaContentElement.appendChild(element);
+
+      this.clientIdElement.innerHTML = this.getClientIdHtml();
     }
+  }
+
+  getClientIdHtml() {
+    return `Client ID: ${this.application.clientId}`;
   }
 
   getCount(messageType) {

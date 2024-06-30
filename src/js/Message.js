@@ -1,5 +1,6 @@
 export default class Message {
-  constructor(id, type, data, dateTime, attachments, location) {
+  constructor(clientId, id, type, data, dateTime, attachments, location) {
+    this.clientId = clientId;
     this.id = id;
     this.type = type;
     this.data = data;
