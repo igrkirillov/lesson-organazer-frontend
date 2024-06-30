@@ -2,6 +2,7 @@ import { toMessageDateFormat } from "./utils";
 import messageTypes from "./messageTypes";
 import fileIcon from "../icons/file.png";
 import { createDownloadAttachmentUrl } from "./serverApi";
+import constants from "./constants";
 
 export default class MessageWidget {
   constructor(ownerElement, messagesWidget, message) {
@@ -32,7 +33,9 @@ export default class MessageWidget {
       case messageTypes.text:
         return `
             <div>
-                <span>${message.data}</span>            
+                <div class="message-text">${this.findAndWrapLinksHtml(
+                  message.data
+                )}</div>            
             </div>
             <div>
                 ${
@@ -57,9 +60,26 @@ export default class MessageWidget {
     }
   }
 
+  findAndWrapLinksHtml(text) {
+    if (!text) {
+      return text;
+    }
+    const matches = text.matchAll(constants.linksRegExpr);
+    const wrappedLinkSet = new Set();
+    for (const match of matches) {
+      const origLink = match[0];
+      if (!wrappedLinkSet.has(origLink)) {
+        const wrappedLink = `<a href="${origLink}" target="_blank" rel="noreferrer">${origLink}</a>`;
+        text = text.replaceAll(origLink, wrappedLink);
+        wrappedLinkSet.add(origLink);
+      }
+    }
+    return text;
+  }
+
   getAttachmentHtml(attachment) {
     return `
-      <img src="${fileIcon}" class="file-attachment-icon">
+      <img src="${fileIcon}" class="file-attachment-icon" alt="attachment">
       <a href="${createDownloadAttachmentUrl(
         attachment
       )}" rel="noopener" download="${attachment.name}" 
