@@ -38,7 +38,24 @@ export default class TimelineWidget {
       : null;
   }
 
-  addListeners() {}
+  addListeners() {
+    this.onDragOverEvent = this.onDragOverEvent.bind(this);
+    this.onDropEvent = this.onDropEvent.bind(this);
+    this.element.addEventListener("dragover", this.onDragOverEvent);
+    this.element.addEventListener("drop", this.onDropEvent);
+  }
+
+  onDragOverEvent(event) {
+    event.preventDefault();
+  }
+
+  onDropEvent(event) {
+    event.preventDefault();
+    const files = Array.from(event.dataTransfer.files);
+    if (files && files.length > 0) {
+      this.typingAreaWidget.addFiles(files);
+    }
+  }
 
   setFocus() {
     this.typingAreaWidget.setFocus();

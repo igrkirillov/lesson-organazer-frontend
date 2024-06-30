@@ -4,6 +4,7 @@ import { decode, encode } from "base64-arraybuffer";
 import ServerAttachment from "./ServerAttachment";
 import messageTypes from "./messageTypes";
 import MessagesPage from "./MessagesPage";
+import Location from "./Location";
 
 const baseUrl = config.serverUrl;
 
@@ -70,7 +71,8 @@ function parseDtoJson(json) {
     json.type,
     parseData(json.type, json.data),
     parseDateTime(json.dateTime),
-    parseServerAttachments(json.id, json.attachmentNames)
+    parseServerAttachments(json.id, json.attachmentNames),
+    parseLocation(json.location)
   );
 }
 
@@ -120,6 +122,13 @@ function parseServerAttachments(messageId, attachmentNames) {
   return attachmentNames
     ? attachmentNames.map((name) => new ServerAttachment(messageId, name))
     : null;
+}
+
+function parseLocation(json) {
+  if (!json) {
+    return null;
+  }
+  return new Location(+json.latitude, +json.longitude);
 }
 
 function dateTimeToString(dateTime) {

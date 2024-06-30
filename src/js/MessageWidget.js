@@ -21,6 +21,9 @@ export default class MessageWidget {
             </div>
             <div class="message-data">
                 ${this.getMessageHtml(message)}
+            </div>
+            <div class="message-location">
+                Местоположение: ${this.getLocationText(message.location)}
             </div>            
         </div>
     `;
@@ -85,5 +88,12 @@ export default class MessageWidget {
       )}" rel="noopener" download="${attachment.name}" 
       class="attachment-link">${attachment.name}</a>
     `;
+  }
+
+  getLocationText(location) {
+    if (!location) {
+      return "";
+    }
+    return `${location.latitude}, ${location.longitude}`;
   }
 }

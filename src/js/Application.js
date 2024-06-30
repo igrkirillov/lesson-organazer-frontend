@@ -4,13 +4,15 @@ import messageTypes from "./messageTypes";
 import SpinnerDialogWidget from "./SpinnerDialogWidget";
 import AttachmentsLoader from "./FileLoader";
 import { addMessageToServer, getMessagesPage } from "./serverApi";
+import constants from "./constants";
 
 export default class Application {
   constructor(mainElement) {
     this.messages = [];
     this.timeLineWidget = new TimelineWidget(this, mainElement);
     this.sharedMediaWidget = new SharedMediaWidget(this, mainElement);
-    this.loadPageMessages(0, 3);
+    // загружаем порцию свежих сообщений
+    this.loadPageMessages(0, constants.pageSize);
   }
 
   loadPageMessages(pageIndex, pageSize) {

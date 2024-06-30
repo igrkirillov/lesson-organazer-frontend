@@ -6,6 +6,7 @@ import Message from "./Message";
 import MediaRecorderDialogWidget from "./MediaRecorderDialogWidget";
 import recorderTypes from "./recorderTypes";
 import FileAttachmentsWidget from "./FileAttachmentsWidget";
+import LocationDeterminerWidget from "./LocationDeterminerWidget";
 
 export default class TypingAreaWidget {
   constructor(application, ownerElement, timelineWidget) {
@@ -14,6 +15,7 @@ export default class TypingAreaWidget {
 
     this.fileAttachmentsWidget = this.createFileAttachmentsArea(this.element);
     this.createMessageInputArea(this.element);
+    this.locationDeterminerWidget = new LocationDeterminerWidget(ownerElement);
 
     this.timelineWidget = timelineWidget;
     this.addListeners();
@@ -127,9 +129,7 @@ export default class TypingAreaWidget {
 
   onMessageInputFileChange() {
     const files = Array.from(this.messageInputFileElement.files);
-    if (files && files.length > 0) {
-      this.fileAttachmentsWidget.addFiles(files);
-    }
+    this.addFiles(files);
     this.setFocus();
   }
 
@@ -174,10 +174,24 @@ export default class TypingAreaWidget {
   }
 
   addMessage(message) {
-    this.application.addMessage(message);
+    this.locationDeterminerWidget
+      .determineMyLocation()
+      .then((location) => {
+        message.setLocation(location);
+        this.application.addMessage(message);
+      })
+      .catch((e) => {
+        console.log("Determine location with error " + e);
+      });
   }
 
   setFocus() {
     this.messageInputTextElement.focus();
+  }
+
+  addFiles(files) {
+    if (files && files.length > 0) {
+      this.fileAttachmentsWidget.addFiles(files);
+    }
   }
 }

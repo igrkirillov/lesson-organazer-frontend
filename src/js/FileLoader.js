@@ -17,7 +17,7 @@ export default class AttachmentsLoader {
             resolve(this.message);
           }
         });
-        reader.addEventListener("error", (event) => {
+        reader.addEventListener("error", () => {
           reject();
         });
         reader.readAsArrayBuffer(attachment.file);

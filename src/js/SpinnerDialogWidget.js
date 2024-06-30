@@ -14,7 +14,7 @@ export default class SpinnerDialogWidget {
     element.innerHTML = `
     <div class="spinner-dialog">      
       <div class="enter-dialog-container">
-          <img src="${spinner}" alt="image spinner">
+          <img src="${spinner}" alt="spinner image">
       </div>
     </div>`;
     ownerElement.appendChild(element);
@@ -23,7 +23,6 @@ export default class SpinnerDialogWidget {
 
   setPosition() {
     const ownerRect = this.ownerElement.getBoundingClientRect();
-    const imageRect = this.spinnerImageElement.getBoundingClientRect();
     const style = this.spinnerDialogElement.style;
     style.top =
       ownerRect.top + ownerRect.height / 2 - constants.spinnerHeight / 2 + "px";
@@ -33,10 +32,6 @@ export default class SpinnerDialogWidget {
 
   get spinnerDialogElement() {
     return this.ownerElement.querySelector(".spinner-dialog");
-  }
-
-  get spinnerImageElement() {
-    return this.ownerElement.querySelector(".enter-dialog-container img");
   }
 
   close() {
