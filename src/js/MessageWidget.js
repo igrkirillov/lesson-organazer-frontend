@@ -65,13 +65,13 @@ export default class MessageWidget {
       return text;
     }
     const matches = text.matchAll(constants.linksRegExpr);
-    const wrappedLinkSet = new Set();
+    const origLinkSet = new Set();
     for (const match of matches) {
       const origLink = match[0];
-      if (!wrappedLinkSet.has(origLink)) {
+      if (!origLinkSet.has(origLink)) {
         const wrappedLink = `<a href="${origLink}" target="_blank" rel="noreferrer">${origLink}</a>`;
         text = text.replaceAll(origLink, wrappedLink);
-        wrappedLinkSet.add(origLink);
+        origLinkSet.add(origLink);
       }
     }
     return text;
