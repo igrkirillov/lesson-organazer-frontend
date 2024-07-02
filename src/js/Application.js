@@ -21,7 +21,7 @@ export default class Application {
     this.ws = createWebSocket();
     this.addListeners();
     // загружаем порцию свежих сообщений
-    this.loadPageMessages(0, constants.pageSize);
+    this.loadPageMessages(0, constants.pageSize, null);
   }
 
   addListeners() {
@@ -37,7 +37,14 @@ export default class Application {
     }
   }
 
-  async loadPageMessages(pageIndex, pageSize) {
+  async reloadMessages(searchText) {
+    this.messages = [];
+    this.timeLineWidget.clear();
+    this.sharedMediaWidget.refreshContent();
+    this.loadPageMessages(0, constants.pageSize, searchText);
+  }
+
+  async loadPageMessages(pageIndex, pageSize, searchText) {
     const spinner = this.createSpinner();
     if (!this.clientId) {
       await getClientId().then((clientId) => {
@@ -46,7 +53,7 @@ export default class Application {
         this.sharedMediaWidget.refreshContent();
       });
     }
-    return getMessagesPage(pageIndex, pageSize)
+    return getMessagesPage(pageIndex, pageSize, searchText)
       .then((page) => {
         this.addPage(page);
       })

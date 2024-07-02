@@ -31,11 +31,12 @@ export async function getClientId() {
     .then((json) => json.clientId);
 }
 
-export async function getMessagesPage(pageIndex, pageSize) {
+export async function getMessagesPage(pageIndex, pageSize, searchText) {
   const url = makeUrl({
     method: "getPage",
     pageIndex: pageIndex,
     pageSize: pageSize,
+    searchText: searchText ? searchText : "",
   });
   return fetch(url, {
     method: "GET",

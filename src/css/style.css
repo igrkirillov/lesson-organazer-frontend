@@ -27,11 +27,32 @@ main {
 }
 
 .saved_messages_header {
-
+    padding: 0 4px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
+.search-container {
+    margin-left: 4px;
+    flex-grow: 1;
+    display: flex;
+}
+
+.search-input {
+    display: block;
+    flex-grow: 1;
+    border: 1px solid gray;
+}
+
+.search-button {
+    display: block;
+    margin-left: 2px;
+}
+
+
 .saved_messages_header h1 {
-    margin: 4px;
+    margin: 0;
 }
 
 .saved_messages_content {

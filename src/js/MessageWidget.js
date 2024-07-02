@@ -6,6 +6,7 @@ import constants from "./constants";
 
 export default class MessageWidget {
   constructor(ownerElement, messagesWidget, message) {
+    this.ownerElement = ownerElement;
     this.element = this.createElement(ownerElement, messagesWidget, message);
     this.messagesWidget = messagesWidget;
     this.data = message;
@@ -95,5 +96,9 @@ export default class MessageWidget {
       return "";
     }
     return `${location.latitude}, ${location.longitude}`;
+  }
+
+  close() {
+    this.ownerElement.removeChild(this.element);
   }
 }

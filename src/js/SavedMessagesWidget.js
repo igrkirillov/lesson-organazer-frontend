@@ -21,7 +21,13 @@ export default class SavedMessagesWidget {
     const element = document.createElement("header");
     element.classList.add("saved_messages_header");
     element.innerHTML = `
-      <h1>Saved messages</h1>
+      <div>  
+        <h1>Saved messages</h1>
+      </div>
+      <div class="search-container">
+        <input type="text" class="search-input">
+        <button class="search-button">Найти</button>      
+      </div>
     `;
     parentElement.appendChild(element);
   }
@@ -36,7 +42,37 @@ export default class SavedMessagesWidget {
     return this.element.querySelector(".saved_messages_content");
   }
 
-  addListeners() {}
+  get searchInputElement() {
+    return this.element.querySelector(".search-input");
+  }
+
+  get searchButtonElement() {
+    return this.element.querySelector(".search-button");
+  }
+
+  addListeners() {
+    this.onClickSearchButton = this.onClickSearchButton.bind(this);
+    this.searchButtonElement.addEventListener(
+      "click",
+      this.onClickSearchButton
+    );
+
+    this.onKeyDownSearchInput = this.onKeyDownSearchInput.bind(this);
+    this.searchInputElement.addEventListener(
+      "keydown",
+      this.onKeyDownSearchInput
+    );
+  }
+
+  onClickSearchButton() {
+    this.application.reloadMessages(this.searchInputElement.value);
+  }
+
+  onKeyDownSearchInput(event) {
+    if (event.key === "Enter" || event.keyCode === 13) {
+      this.application.reloadMessages(this.searchInputElement.value);
+    }
+  }
 
   scrollToBottom() {
     let scrollableDiv = this.savedMessagesContentElement;

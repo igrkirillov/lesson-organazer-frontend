@@ -38,7 +38,7 @@ export default class PaginatorWidget {
     event.preventDefault();
     const widget = this;
     this.application
-      .loadPageMessages(this.page.pageIndex + 1, this.page.pageSize)
+      .loadPageMessages(this.page.pageIndex + 1, this.page.pageSize, null)
       .then(() => {
         widget.close();
       });
@@ -50,5 +50,13 @@ export default class PaginatorWidget {
       this.onPaginatorLinkClick
     );
     this.ownerElement.removeChild(this.element);
+  }
+
+  isClosed() {
+    return (
+      !this.element ||
+      !this.ownerElement ||
+      !Array.from(this.ownerElement.children).includes(this.element)
+    );
   }
 }

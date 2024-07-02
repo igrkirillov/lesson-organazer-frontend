@@ -18,6 +18,7 @@ export default class TimelineWidget {
       this.element,
       this
     );
+    this.paginatorWidget = null;
     this.addListeners();
   }
 
@@ -90,16 +91,24 @@ export default class TimelineWidget {
   }
 
   addPaginator(page) {
-    const paginatorWidget = new PaginatorWidget(
+    this.paginatorWidget = new PaginatorWidget(
       this.savedMessagesContentElement,
       page,
       this.application
     );
     if (this.firstMessageWidget) {
       this.savedMessagesContentElement.insertBefore(
-        paginatorWidget.element,
+        this.paginatorWidget.element,
         this.firstMessageWidget.element
       );
     }
+  }
+
+  clear() {
+    if (this.paginatorWidget && !this.paginatorWidget.isClosed()) {
+      this.paginatorWidget.close();
+    }
+    this.messageWidgets.forEach((w) => w.close());
+    this.messageWidgets = [];
   }
 }
