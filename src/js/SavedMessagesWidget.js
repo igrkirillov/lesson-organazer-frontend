@@ -26,7 +26,8 @@ export default class SavedMessagesWidget {
       </div>
       <div class="search-container">
         <input type="text" class="search-input">
-        <button class="search-button">Найти</button>      
+        <button class="search-button">Найти</button>
+        <button class="search-clear-button display-none">Очистить</button>
       </div>
     `;
     parentElement.appendChild(element);
@@ -50,11 +51,21 @@ export default class SavedMessagesWidget {
     return this.element.querySelector(".search-button");
   }
 
+  get searchClearButtonElement() {
+    return this.element.querySelector(".search-clear-button");
+  }
+
   addListeners() {
     this.onClickSearchButton = this.onClickSearchButton.bind(this);
     this.searchButtonElement.addEventListener(
       "click",
       this.onClickSearchButton
+    );
+
+    this.onClickSearchClearButton = this.onClickSearchClearButton.bind(this);
+    this.searchClearButtonElement.addEventListener(
+      "click",
+      this.onClickSearchClearButton
     );
 
     this.onKeyDownSearchInput = this.onKeyDownSearchInput.bind(this);
@@ -68,7 +79,16 @@ export default class SavedMessagesWidget {
     this.application.reloadMessages(this.searchInputElement.value);
   }
 
+  onClickSearchClearButton() {
+    this.searchInputElement.value = "";
+    this.application.reloadMessages(null);
+    this.searchClearButtonElement.classList.add("display-none");
+  }
+
   onKeyDownSearchInput(event) {
+    if (!this.searchInputElement.value) {
+      this.searchClearButtonElement.classList.remove("display-none");
+    }
     if (event.key === "Enter" || event.keyCode === 13) {
       this.application.reloadMessages(this.searchInputElement.value);
     }

@@ -50,6 +50,14 @@ main {
     margin-left: 2px;
 }
 
+.search-clear-button {
+    display: block;
+    margin-left: 2px;
+}
+
+.display-none {
+    display: none;
+}
 
 .saved_messages_header h1 {
     margin: 0;
