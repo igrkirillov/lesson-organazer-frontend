@@ -15,9 +15,10 @@ export default class MessageWidget {
     );
     this.messagesWidget = messagesWidget;
     this.data = message;
+    this.objectUrl = null;
   }
 
-  createElement(ownerElement, postsWidget, message, searchText) {
+  createElement(ownerElement, messagesWidget, message, searchText) {
     const element = document.createElement("div");
     element.classList.add("message");
     element.innerHTML = `
@@ -59,14 +60,14 @@ export default class MessageWidget {
                 }
             </div>            
         `;
-      case messageTypes.video:
-        return `<video src="${URL.createObjectURL(
-          message.data
-        )}" class="video-message" controls></video>`;
-      case messageTypes.audio:
-        return `<audio src="${URL.createObjectURL(
-          message.data
-        )}" class="audio-message" controls></audio>`;
+      case messageTypes.video: {
+        this.objectUrl = URL.createObjectURL(message.data);
+        return `<video src="${this.objectUrl}" class="video-message" controls></video>`;
+      }
+      case messageTypes.audio: {
+        this.objectUrl = URL.createObjectURL(message.data);
+        return `<audio src="${this.objectUrl}" class="audio-message" controls></audio>`;
+      }
       default:
         return `<span>${message.data}</span>`;
     }
@@ -126,6 +127,10 @@ export default class MessageWidget {
   }
 
   close() {
+    if (this.objectUrl) {
+      URL.revokeObjectURL(this.objectUrl);
+      this.objectUrl = null;
+    }
     this.ownerElement.removeChild(this.element);
   }
 }
