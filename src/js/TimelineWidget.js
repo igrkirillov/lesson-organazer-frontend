@@ -62,22 +62,24 @@ export default class TimelineWidget {
     this.typingAreaWidget.setFocus();
   }
 
-  addMessage(message) {
+  addMessage(message, searchText) {
     const messageWidget = new MessageWidget(
       this.savedMessagesContentElement,
       this,
-      message
+      message,
+      searchText
     );
     this.messageWidgets.push(messageWidget);
     this.savedMessagesWidget.scrollToBottom();
   }
 
-  addMessages(messages) {
+  addMessages(messages, searchText) {
     for (const message of messages) {
       const messageWidget = new MessageWidget(
         this.savedMessagesContentElement,
         this,
-        message
+        message,
+        searchText
       );
       if (this.firstMessageWidget) {
         this.savedMessagesContentElement.insertBefore(

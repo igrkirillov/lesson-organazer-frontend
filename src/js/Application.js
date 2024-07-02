@@ -31,7 +31,7 @@ export default class Application {
 
   onAddMessageFromWs(message) {
     if (this.clientId !== message.clientId) {
-      this.addMessage(message);
+      this.addMessage(message, null);
     } else {
       console.log("Message from ws belongs me");
     }
@@ -55,7 +55,7 @@ export default class Application {
     }
     return getMessagesPage(pageIndex, pageSize, searchText)
       .then((page) => {
-        this.addPage(page);
+        this.addPage(page, searchText);
       })
       .finally(() => {
         spinner.close();
@@ -78,17 +78,17 @@ export default class Application {
       });
   }
 
-  addMessage(savedMessage) {
+  addMessage(savedMessage, searchText) {
     this.messages.push(savedMessage);
-    this.timeLineWidget.addMessage(savedMessage);
+    this.timeLineWidget.addMessage(savedMessage, searchText);
     this.sharedMediaWidget.refreshContent();
   }
 
-  addPage(page) {
+  addPage(page, searchText) {
     const messages = page.messages;
     if (messages && messages.length > 0) {
       this.messages.unshift(...messages);
-      this.timeLineWidget.addMessages(messages);
+      this.timeLineWidget.addMessages(messages, searchText);
       this.sharedMediaWidget.refreshContent();
     }
     if (page.beforeCount > 0) {

@@ -5,14 +5,19 @@ import { createDownloadAttachmentUrl } from "./serverApi";
 import constants from "./constants";
 
 export default class MessageWidget {
-  constructor(ownerElement, messagesWidget, message) {
+  constructor(ownerElement, messagesWidget, message, searchText) {
     this.ownerElement = ownerElement;
-    this.element = this.createElement(ownerElement, messagesWidget, message);
+    this.element = this.createElement(
+      ownerElement,
+      messagesWidget,
+      message,
+      searchText
+    );
     this.messagesWidget = messagesWidget;
     this.data = message;
   }
 
-  createElement(ownerElement, postsWidget, message) {
+  createElement(ownerElement, postsWidget, message, searchText) {
     const element = document.createElement("div");
     element.classList.add("message");
     element.innerHTML = `
@@ -21,7 +26,7 @@ export default class MessageWidget {
                 <span>${toMessageDateFormat(message.dateTime)}</span>
             </div>
             <div class="message-data">
-                ${this.getMessageHtml(message)}
+                ${this.getMessageHtml(message, searchText)}
             </div>
             <div class="message-location">
                 Местоположение: ${this.getLocationText(message.location)}
@@ -32,14 +37,17 @@ export default class MessageWidget {
     return element;
   }
 
-  getMessageHtml(message) {
+  getMessageHtml(message, searchText) {
     switch (message.type) {
       case messageTypes.text:
         return `
             <div>
-                <div class="message-text">${this.findAndWrapLinksHtml(
-                  message.data
-                )}</div>            
+                <div class="message-text">
+                    ${this.findAndWrapMatchedTextHtml(
+                      this.findAndWrapLinksHtml(message.data),
+                      searchText
+                    )}
+                </div>            
             </div>
             <div>
                 ${
@@ -76,6 +84,25 @@ export default class MessageWidget {
         const wrappedLink = `<a href="${origLink}" target="_blank" rel="noreferrer">${origLink}</a>`;
         text = text.replaceAll(origLink, wrappedLink);
         origLinkSet.add(origLink);
+      }
+    }
+    return text;
+  }
+
+  findAndWrapMatchedTextHtml(text, searchText) {
+    if (!text || !searchText || searchText.length === 0 || text.length === 0) {
+      return text;
+    }
+    const regExpr = new RegExp(`(${searchText})`, "gi");
+    console.log(regExpr);
+    const matches = text.matchAll(regExpr);
+    const origSet = new Set();
+    for (const match of matches) {
+      const orig = match[0];
+      if (!origSet.has(orig)) {
+        const wrapped = `<span class="selected-text">${orig}</span>`;
+        text = text.replaceAll(orig, wrapped);
+        origSet.add(orig);
       }
     }
     return text;
