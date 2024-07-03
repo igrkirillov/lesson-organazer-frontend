@@ -1,0 +1,471 @@
+body {
+    font-size: 16pt;
+    overflow-y: hidden;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+main {
+    display: flex;
+    flex-wrap: nowrap;
+    max-width: 800px;
+}
+
+.messages_panel {
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+}
+
+.saved_messages {
+    background-color: lightyellow;
+    flex-grow: 1;
+    border: lightgray solid 1px;
+    border-bottom: 0;
+}
+
+.saved_messages_header {
+    padding: 0 4px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.search-container {
+    margin-left: 4px;
+    flex-grow: 1;
+    display: flex;
+}
+
+.search-input {
+    display: block;
+    flex-grow: 1;
+    border: 1px solid gray;
+}
+
+.search-button {
+    display: block;
+    margin-left: 2px;
+}
+
+.search-clear-button {
+    display: block;
+    margin-left: 2px;
+}
+
+.display-none {
+    display: none;
+}
+
+.saved_messages_header h1 {
+    margin: 0;
+}
+
+.saved_messages_content {
+    padding: 4px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    height: 500px;
+}
+
+.shared_media_header {
+
+}
+
+.shared_media_header h1 {
+    margin: 4px;
+}
+
+.shared-media-content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.shared-media-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.shared-media-icon {
+    width: 48px;
+    height: 48px;
+}
+
+.shared-media-info {
+    width: 100%;
+    text-align: left;
+}
+
+.typing-area {
+    flex-grow: 0;
+    border: lightgray solid 1px;
+    border-top: 0;
+}
+
+.shared_media {
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+    background-color: lightgray;
+    border: lightgray solid 1px;
+    border-left: 0;
+}
+
+.message {
+    padding: 2px;
+    border: 1px solid gray;
+    border-radius: 4px;
+    width: fit-content;
+}
+
+.message:nth-child(n + 1) {
+    margin-top: 4px;
+}
+
+.message-title {
+    font-size: 0.8em;
+    font-style: italic;
+}
+
+.post:nth-child(n + 2) {
+    margin-top: 10px;
+}
+
+.message-input-text {
+    width: 100%;
+    padding-right: 36px;
+    font-size: 1rem;
+}
+
+.message-input-button {
+    margin-left: 4px;
+}
+
+.camera-icon, .microphone-icon, .file-icon {
+    width: 16px;
+    height: 16px;
+}
+
+.message-input-container {
+    position: relative;
+    width: 100%;
+}
+
+.message-file-link {
+    position: absolute;
+    right: 40px;
+    top: 4px;
+    text-decoration: none;
+    line-height: 0;
+}
+
+.message-file-link:hover {
+    background-color: lightgray;
+}
+
+.message-video-link {
+    position: absolute;
+    right: 20px;
+    top: 4px;
+    text-decoration: none;
+    line-height: 0;
+}
+
+.message-video-link:hover {
+    background-color: lightgray;
+}
+
+.message-audio-link {
+    position: absolute;
+    right: 2px;
+    top: 4px;
+    text-decoration: none;
+    line-height: 0;
+}
+
+.message-audio-link:hover {
+    background-color: lightgray;
+}
+
+.message-text {
+    word-wrap: break-word;
+}
+
+.message-location {
+    text-align: right;
+    font-size: 0.8em;
+}
+
+.selected-text {
+    background-color: blue;
+}
+
+.tip {
+    position: absolute;
+    background-color: white;
+    z-index: 500;
+}
+
+.tip-hidden {
+    display: none;
+}
+
+.tip-text {
+    font-style: italic;
+    color: darkred;
+}
+
+.video-recorder-dialog {
+    width: 400px;
+    height: 500px;
+    position: absolute;
+    top: calc(30% - 250px/2);
+    left: calc(50% - 400px/2);
+    border: 1px solid black;
+    border-radius: 10px;
+    z-index: 2;
+    background-color: white;
+}
+
+.video-recorder-dialog-audio {
+    width: 400px;
+    height: 180px;
+}
+
+.video-recorder-video {
+    width: 380px;
+    height: 380px;
+}
+
+.video-recorder-audio {
+    width: 380px;
+    height: 60px;
+}
+
+.video-recorder-dialog-base {
+    content: "";
+    position: absolute;
+    top:0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background-color: gray;
+    opacity: 98%;
+}
+
+.video-recorder-dialog-title {
+    margin: auto;
+    text-align: center;
+}
+
+.video-recorder-dialog-container {
+    margin-top: 20px;
+    padding: 0 10px;
+}
+
+.video-recorder-dialog-name {
+    display: block;
+    width: 100%;
+}
+
+.video-recorder-dialog-description {
+    display: block;
+    width: 100%;
+    min-height: 100px;
+}
+
+.video-recorder-dialog-buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+.video-recorder-dialog-cancel {
+    margin-right: 4px;
+}
+
+.video-recorder-dialog-ok {
+    margin-left: 4px;
+}
+
+.video-message {
+    width: 380px;
+    height: 240px;
+}
+
+.file-container {
+    position: relative;
+}
+
+.overlapped {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+.file-attachments {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+}
+
+.file-attachment-icon {
+    width: 16px;
+    height: 16px;
+}
+
+.file-attachment-remove {
+    text-decoration: none;
+}
+
+.file-attachment-remove:hover {
+    background-color: lightgray;
+}
+
+.spinner-dialog {
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    z-index: 2;
+    background-color: gray;
+}
+
+.spinner-dialog-base {
+    content: "";
+    position: absolute;
+    top:0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background-color: gray;
+    opacity: 90%;
+}
+
+.spinner-dialog-container {
+    margin-top: 20px;
+    padding: 0 10px;
+}
+
+.attachment-link {
+    text-decoration: none;
+}
+
+.paginator {
+
+}
+
+.paginator-container {
+    margin: 0 auto;
+    width: max-content;
+}
+
+.paginator-link {
+    text-decoration: none;
+    border: 1px solid gray;
+    border-radius: 4px;
+}
+
+.manual-location-dialog {
+    width: 400px;
+    height: 280px;
+    position: absolute;
+    top: calc(30% - 250px/2);
+    left: calc(50% - 400px/2);
+    border: 1px solid black;
+    border-radius: 10px;
+    z-index: 2;
+    background-color: white;
+}
+
+.manual-location-dialog-base {
+    content: "";
+    position: absolute;
+    top:0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background-color: gray;
+    opacity: 90%;
+}
+
+.manual-location-dialog-title {
+    margin: auto;
+    text-align: center;
+}
+
+.manual-location-dialog-container {
+    margin-top: 20px;
+    padding: 0 10px;
+}
+
+.manual-location-dialog-name {
+    display: block;
+    width: 100%;
+}
+
+.manual-location-dialog-location {
+    display: block;
+    width: 100%;
+}
+
+.manual-location-dialog-location:invalid {
+    border: 1px solid red;
+}
+
+.manual-location-dialog-location:invalid:required {
+    background-color: pink;
+}
+
+.manual-location-dialog-location:valid {
+    border: 1px solid black;
+}
+
+.manual-location-dialog-buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+.manual-location-dialog-ok {
+    margin-left: 4px;
+}
+
+.manual-location-dialog-cancel {
+    margin-right: 4px;
+}
+
+.tip {
+    position: absolute;
+    background-color: white;
+    z-index: 500;
+}
+
+.tip-hidden {
+    display: none;
+}
+
+.tip-text {
+    font-style: italic;
+    color: darkred;
+}
+
+.shared-media-footer {
+    align-self: end;
+    padding: 0 4px;
+}
+
+.client-id {
+    font-size: 0.8em;
+}
+
+
+/*# sourceMappingURL=main.css.map*/
