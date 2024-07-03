@@ -44,7 +44,10 @@ export default class MessageWidget {
         return `
             <div>
                 <div class="message-text">
-                    ${this.findAndWrapLinksAndSelectSearchText(message.data, searchText)}
+                    ${this.findAndWrapLinksAndSelectSearchText(
+                      message.data,
+                      searchText
+                    )}
                 </div>            
             </div>
             <div>
@@ -79,15 +82,28 @@ export default class MessageWidget {
     const matches = text.matchAll(constants.linksRegExpr);
     for (const match of matches) {
       const origLink = match[0];
-      const wrappedLink = `<a href="${origLink}" target="_blank" rel="noreferrer">${this.findAndWrapMatchedText(origLink, searchText)}</a>`;
+      const wrappedLink = `<a href="${origLink}" target="_blank" rel="noreferrer">${this.findAndWrapMatchedText(
+        origLink,
+        searchText
+      )}</a>`;
       if (match.index > currentIndex) {
-        textParts.push(this.findAndWrapMatchedText(text.substring(currentIndex, match.index), searchText));
+        textParts.push(
+          this.findAndWrapMatchedText(
+            text.substring(currentIndex, match.index),
+            searchText
+          )
+        );
       }
       textParts.push(wrappedLink);
       currentIndex = match.index + origLink.length;
     }
     if (currentIndex != text.length - 1) {
-      textParts.push(this.findAndWrapMatchedText(text.substring(currentIndex, text.length), searchText));
+      textParts.push(
+        this.findAndWrapMatchedText(
+          text.substring(currentIndex, text.length),
+          searchText
+        )
+      );
       currentIndex = text.length - 1;
     }
     return textParts.join("");
