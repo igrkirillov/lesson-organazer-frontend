@@ -44,10 +44,7 @@ export default class MessageWidget {
         return `
             <div>
                 <div class="message-text">
-                    ${this.findAndWrapMatchedTextHtml(
-                      this.findAndWrapLinksHtml(message.data),
-                      searchText
-                    )}
+                    ${this.findAndWrapLinksAndSelectSearchText(message.data, searchText)}
                 </div>            
             </div>
             <div>
@@ -73,24 +70,30 @@ export default class MessageWidget {
     }
   }
 
-  findAndWrapLinksHtml(text) {
+  findAndWrapLinksAndSelectSearchText(text, searchText) {
     if (!text) {
       return text;
     }
+    const textParts = [];
+    let currentIndex = 0;
     const matches = text.matchAll(constants.linksRegExpr);
-    const origLinkSet = new Set();
     for (const match of matches) {
       const origLink = match[0];
-      if (!origLinkSet.has(origLink)) {
-        const wrappedLink = `<a href="${origLink}" target="_blank" rel="noreferrer">${origLink}</a>`;
-        text = text.replaceAll(origLink, wrappedLink);
-        origLinkSet.add(origLink);
+      const wrappedLink = `<a href="${origLink}" target="_blank" rel="noreferrer">${this.findAndWrapMatchedText(origLink, searchText)}</a>`;
+      if (match.index > currentIndex) {
+        textParts.push(this.findAndWrapMatchedText(text.substring(currentIndex, match.index), searchText));
       }
+      textParts.push(wrappedLink);
+      currentIndex = match.index + origLink.length;
     }
-    return text;
+    if (currentIndex != text.length - 1) {
+      textParts.push(this.findAndWrapMatchedText(text.substring(currentIndex, text.length), searchText));
+      currentIndex = text.length - 1;
+    }
+    return textParts.join("");
   }
 
-  findAndWrapMatchedTextHtml(text, searchText) {
+  findAndWrapMatchedText(text, searchText) {
     if (!text || !searchText || searchText.length === 0 || text.length === 0) {
       return text;
     }
